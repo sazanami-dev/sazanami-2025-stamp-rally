@@ -13,3 +13,60 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id           String        @id
+  displayName  String
+  createdAt    DateTime      @default(now())
+  cooldowns    Cooldown[]
+  completions  Completion[]
+  achievements Achievement[]
+}
+
+model Checkpoint {
+  id                       String       @id @default(uuid())
+  displayName              String
+  floor                    Int
+  categoryId               String
+  category                 Category     @relation(fields: [categoryId], references: [id])
+  cooldownDurationOverride Int?
+  createdAt                DateTime     @default(now())
+  cooldowns                Cooldown[]
+  completions              Completion[]
+}
+
+model Category {
+  id               String       @id @default(uuid())
+  name             String
+  cooldownDuration Int
+  checkpoints      Checkpoint[]
+}
+
+model Cooldown {
+  id           String     @id @default(uuid())
+  userId       String
+  checkpointId String
+  expiresAt    DateTime
+  createdAt    DateTime   @default(now())
+  user         User       @relation(fields: [userId], references: [id])
+  checkpoint   Checkpoint @relation(fields: [checkpointId], references: [id])
+
+  @@unique([userId, checkpointId])
+}
+
+model Completion {
+  id           String     @id @default(uuid())
+  userId       String
+  checkpointId String
+  createdAt    DateTime   @default(now())
+  user         User       @relation(fields: [userId], references: [id])
+  checkpoint   Checkpoint @relation(fields: [checkpointId], references: [id])
+}
+
+model Achievement {
+  id            String   @id @default(uuid())
+  userId        String
+  achievementId String // defined in codebase
+  createdAt     DateTime @default(now())
+  user          User     @relation(fields: [userId], references: [id])
+}
