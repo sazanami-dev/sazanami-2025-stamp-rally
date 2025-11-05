@@ -23,5 +23,3 @@ initializeInstrumentation(logger).then(() => {
   logger.complete('System check complete.');
 });
 
-
-console.log(process.env.DATABASE_URL);
