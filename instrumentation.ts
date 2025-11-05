@@ -1,5 +1,5 @@
-import Logger from "@@/logger";
-import { prisma } from "@@/prisma";
+import Logger from "@/lib/logger";
+import { prisma } from "@/lib/prisma";
 
 async function initializeInstrumentation(logger: Logger) {
   logger.info('System check starting...');
