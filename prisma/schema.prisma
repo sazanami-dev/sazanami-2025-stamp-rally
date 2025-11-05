@@ -18,7 +18,7 @@ model User {
   displayName  String
   createdAt    DateTime      @default(now())
   cooldowns    Cooldown[]
-  completions  Completion[]
+  checkins  Checkin[]
   achievements Achievement[]
 }
 
@@ -31,7 +31,7 @@ model Checkpoint {
   cooldownDurationOverride Int?
   createdAt                DateTime     @default(now())
   cooldowns                Cooldown[]
-  completions              Completion[]
+  checkins              Checkin[]
 }
 
 model Category {
@@ -53,7 +53,7 @@ model Cooldown {
   @@unique([userId, checkpointId])
 }
 
-model Completion {
+model Checkin {
   id           String     @id @default(uuid())
   userId       String
   checkpointId String
