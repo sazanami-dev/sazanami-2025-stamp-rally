@@ -6,13 +6,13 @@ export default function CheckinEntryPage() {
 
   const handleDebugCheckin = async () => {
     "use server";
+
     const userId = "debug-user";
     const checkpointId = "debug_checkpoint";
     try {
       const checkin = await recordCheckIn(userId, checkpointId);
-      console.log("Check-in recorded:", checkin);
       const achievementResult = await processAchievement(checkin.id);
-      console.log("Achievement processed:", achievementResult);
+      
     } catch (error) {
       console.error("Error during debug check-in:", error);
     }
