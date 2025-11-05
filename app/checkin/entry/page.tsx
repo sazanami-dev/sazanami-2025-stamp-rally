@@ -6,12 +6,12 @@ export default function CheckinEntryPage() {
 
   const handleDebugCheckin = async () => {
     "use server";
-    const userId = "debug-user-id";
-    const checkpointId = "debug-checkpoint-id";
+    const userId = "debug-user";
+    const checkpointId = "debug_checkpoint";
     try {
       const checkin = await recordCheckIn(userId, checkpointId);
       console.log("Check-in recorded:", checkin);
-      const achievementResult = await processAchievement(userId);
+      const achievementResult = await processAchievement(checkin.id);
       console.log("Achievement processed:", achievementResult);
     } catch (error) {
       console.error("Error during debug check-in:", error);
@@ -20,7 +20,7 @@ export default function CheckinEntryPage() {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center h-full gap-6 bg-amber-200">
+      <div className="flex flex-col items-center justify-center h-full gap-6">
         <Button
           variant="solid"
           color="primary"
