@@ -18,20 +18,20 @@ model User {
   displayName  String
   createdAt    DateTime      @default(now())
   cooldowns    Cooldown[]
-  checkins  Checkin[]
+  checkins     Checkin[]
   achievements Achievement[]
 }
 
 model Checkpoint {
-  id                       String       @id @default(uuid())
+  id                       String     @id @default(uuid())
   displayName              String
   floor                    Int
   categoryId               String
-  category                 Category     @relation(fields: [categoryId], references: [id])
+  category                 Category   @relation(fields: [categoryId], references: [id])
   cooldownDurationOverride Int?
-  createdAt                DateTime     @default(now())
+  createdAt                DateTime   @default(now())
   cooldowns                Cooldown[]
-  checkins              Checkin[]
+  checkins                 Checkin[]
 }
 
 model Category {
