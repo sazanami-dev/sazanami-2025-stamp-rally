@@ -1,9 +1,8 @@
 import Logger from "@@/logger";
 import { prisma } from "@@/prisma";
 
-
 async function initializeInstrumentation(logger: Logger) {
-  logger.info('Initializing instrumentation module...');
+  logger.info('System check starting...');
   await testDbConnection(logger);
 }
 
@@ -18,17 +17,9 @@ async function testDbConnection(logger: Logger) {
   }
 }
 
-
-
-
-
-
-
-
-
-const logger = new Logger('instrumentation');
+const logger = new Logger('check');
 
 initializeInstrumentation(logger).then(() => {
-  logger.info('Instrumentation module setup complete');
+  logger.complete('System check complete.');
 });
 
