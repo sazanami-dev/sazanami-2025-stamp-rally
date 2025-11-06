@@ -2,7 +2,6 @@ import { ServerEnvUtil, ServerEnvKey } from '@/lib/serverEnv';
 
 import axios from 'axios';
 
-
 const authApi = () => {
   const apiClient = axios.create({
     baseURL: ServerEnvUtil.get(ServerEnvKey.CORE_AUTH_BASE_URL)

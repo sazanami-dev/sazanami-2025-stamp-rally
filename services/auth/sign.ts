@@ -2,17 +2,12 @@ import jwks from 'jwk-to-pem';
 import jwt from 'jsonwebtoken';
 import authApi from './api';
 
-
 async function getSigningKey(kid: string): Promise<string> {
-
   const jwksResponse = await authApi().get({ path: '/.well-known/jwks.json' });
-
   const jwk = jwksResponse.keys.find((key: any) => key.kid === kid);
-
   if (!jwk) {
     throw new Error(`Signing key not found for kid: ${kid}`);
   }
-
   return jwks(jwk);
 }
 
