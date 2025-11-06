@@ -33,3 +33,5 @@ async function verifyToken(token: string): Promise<any> {
     });
   });
 }
+
+export { verifyToken };

@@ -17,3 +17,5 @@ async function decodeToken(token: string): Promise<TokenClaims> {
     });
   });
 }
+
+export { decodeToken };
