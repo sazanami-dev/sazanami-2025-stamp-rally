@@ -1,33 +1,38 @@
+"use client";
 import { Button } from "@heroui/button";
-import { recordCheckIn } from "@/services/checkin";
-import { process as processAchievement } from "@/services/achievement";
+import { Input } from "@heroui/input";
+import { handleDebugCheckin } from "./actions";
+import { useState } from "react";
 
 export default function CheckinEntryPage() {
 
-  const handleDebugCheckin = async () => {
-    "use server";
-
-    const userId = "debug-user";
-    const checkpointId = "debug_checkpoint";
-    try {
-      const checkin = await recordCheckIn(userId, checkpointId);
-      const achievementResult = await processAchievement(checkin.id);
-      
-    } catch (error) {
-      console.error("Error during debug check-in:", error);
-    }
-  }
+  const [checkpointId, setCheckpointId] = useState("debug_checkpoint");
+  const [userId, setUserId] = useState("debug-user");
 
   return (
     <>
       <div className="flex flex-col items-center justify-center h-full gap-6">
+        <Input
+          label="Debug Checkpoint ID"
+          defaultValue="debug_checkpoint"
+          onChange={(e) => setCheckpointId(e.currentTarget.value)}
+        />
+        <Input
+          label="Debug User ID"
+          defaultValue="debug-user"
+          onChange={(e) => setUserId(e.currentTarget.value)}
+        />
+
         <Button
           variant="solid"
           color="primary"
-          onPress={handleDebugCheckin}
+          onPress={async () => {
+            await handleDebugCheckin(checkpointId, userId);
+          }}
         >
           Debug Checkin
         </Button>
+
       </div>
     </>
   );
