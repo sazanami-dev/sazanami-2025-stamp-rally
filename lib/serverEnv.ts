@@ -28,22 +28,12 @@ function createEnvConfig<T extends Record<string, { type: 'string' | 'number' | 
 }
 
 // 定義リスト
-export const { config: envDefinitions, keys: EnvKey } = createEnvConfig({
+export const { config: envDefinitions, keys: ServerEnvKey } = createEnvConfig({
   PORT: { type: 'number', default: 3000 },
   NODE_ENV: { type: 'string', default: 'development' },
   PLACEHOLDER_BOOL: { type: 'boolean', default: false }, // 型エラーを吐いてしまうので
-  UID_LENGTH: { type: 'number', default: 8 },
-  JWT_SECRET: { type: 'string', default: 'your-secret' },
-  CLIENT_ORIGIN: { type: 'string', default: 'http://localhost:5173' },
-  ACCOUNT_INITIALIZATION_PAGE: { type: 'string', default: 'http://localhost:5173/init-account' }, 
-  REAUTHENTICATION_PAGE: { type: 'string', default: 'http://localhost:5173/reauth' },
-  PORTAL_PAGE: { type: 'string', default: 'http://localhost:5173/' },
-  ERROR_PAGE: { type: 'string', default: 'http://localhost:5173/error' },
-  TOKEN_SIGN_KEY_PATH: { type: 'string', default: '/data/key/private.pem' },
-  TOKEN_DEFAULT_EXPIRATION: { type: 'number', default: 60 * 60 * 24 * 1 }, // 1 day
-  TOKEN_DEFAULT_ISSUER: { type: 'string', default: 'sazanami-core-auth' },
-  TOKEN_SIGN_KEY_DEFAULT_KID: { type: 'string', default: 'default' },
-  MANAGE_API_KEY: { type: 'string', default: 'change-this-manage-api-master-key' },
+  CORE_AUTH_BASE_URL: { type: 'string', default: 'http://localhost:3000' },
+  CORE_AUTH_STATIC_KID: { type: 'string', default: 'default' },
 });
 
 type EnvConfig = typeof envDefinitions;
