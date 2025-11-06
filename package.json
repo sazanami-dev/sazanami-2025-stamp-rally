@@ -13,7 +13,9 @@
     "db:push": "prisma db push",
     "db:push:force": "prisma db push --accept-data-loss",
     "db:reset": "prisma migrate reset --force",
-    "db:format": "prisma format"
+    "db:format": "prisma format",
+    "db:seed:dev": "prisma db seed -- --environment development",
+    "db:seed:prod": "prisma db seed -- --environment production"
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^1.51.1",
