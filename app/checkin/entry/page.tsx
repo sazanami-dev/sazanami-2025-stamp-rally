@@ -1,38 +1,32 @@
 "use client";
-import { Button } from "@heroui/button";
-import { Input } from "@heroui/input";
-import { handleDebugCheckin } from "./actions";
-import { useState } from "react";
+import { Card, CardBody } from "@heroui/card";
+import { Spinner } from "@heroui/spinner";
+import { useEffect, useState } from "react";
 
 export default function CheckinEntryPage() {
 
-  const [checkpointId, setCheckpointId] = useState("debug_checkpoint");
-  const [userId, setUserId] = useState("debug-user");
+  // クエリパラメータの取得
+  const [checkpointId, setCheckpointId] = useState("");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setCheckpointId(params.get("checkpointId") || "invalid");
+
+    // TODO: Call checkin action
+  }, []);
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center h-full gap-6">
-        <Input
-          label="Debug Checkpoint ID"
-          defaultValue="debug_checkpoint"
-          onChange={(e) => setCheckpointId(e.currentTarget.value)}
-        />
-        <Input
-          label="Debug User ID"
-          defaultValue="debug-user"
-          onChange={(e) => setUserId(e.currentTarget.value)}
-        />
-
-        <Button
-          variant="solid"
-          color="primary"
-          onPress={async () => {
-            await handleDebugCheckin(checkpointId, userId);
-          }}
-        >
-          Debug Checkin
-        </Button>
-
+      <div className="h-max min-h-screen w-full flex flex-col items-center justify-center py-12">
+        <Card className="w-[90%] max-w-[24em] h-[16em]">
+          <CardBody className="flex flex-col items-center justify-center">
+            <div className="flex flex-col items-center justify-center">
+              <Spinner className="py-6" />
+              <p className="text-md py-1">しばらくお待ちください...</p>
+              <p className="text-small text-default-500 py-2">チェックイン処理中です</p>
+            </div>
+          </CardBody>
+        </Card>
       </div>
     </>
   );
