@@ -16,7 +16,8 @@ export default function CheckinComplete({ achieved }: { achieved: string[] }) {
           <Button
             radius="full"
             className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg my-4 animate-bounce"
-            onClick={() => document.location.href = '/'}>
+            // onClick={() => document.location.href = '/'}>
+            >
             ホームに戻る
           </Button>
         </div>
