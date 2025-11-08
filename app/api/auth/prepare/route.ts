@@ -11,9 +11,8 @@ export async function GET(request: NextRequest) {
   
   const waiting = await createWaiting(nextUrl);
 
-  const redirectUrl = baseUrl;
+  const redirectUrl = nextUrl ? new URL(nextUrl) : new URL(baseUrl.toString());
 
-  redirectUrl.pathname = '/auth/post';
   redirectUrl.searchParams.set('postAuth', 'true');
   redirectUrl.searchParams.set('state', waiting.id);
 
