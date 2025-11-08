@@ -18,6 +18,10 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
+  if (request.nextUrl.searchParams.get('postAuth') === 'true') {
+    return NextResponse.rewrite(baseUrl.pathname = '/api/auth/post');
+  }
+
   // Cookieのトークンをチェック
   const token = request.cookies.get('token')?.value
 
