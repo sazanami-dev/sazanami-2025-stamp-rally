@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
   redirectUrl.searchParams.set('state', waiting.id);
 
   const postbackUrl = new URL(baseUrl.toString());
-  postbackUrl.pathname = '/api/auth/postback';
+  postbackUrl.pathname = '/api/auth/callback';
 
   coreAuthBaseUrl.pathname = '/authenticate';
   coreAuthBaseUrl.searchParams.set('redirectUrl', redirectUrl.toString());
