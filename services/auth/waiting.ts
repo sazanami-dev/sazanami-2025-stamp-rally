@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { SetTokenWaiting } from "@prisma/client";
 
 const EXPIRATION_MINUTES = 15; // TODO: Move to env variable
 
@@ -17,10 +18,11 @@ export class WaitingEntryExpiredError extends Error {
   }
 }
 
-async function createWaiting() {
+async function createWaiting(redirectTo?: string) {
   const now = new Date();
   const waiting = await prisma.setTokenWaiting.create({
     data: {
+      redirectTo: redirectTo || null,
       expiresAt: new Date(now.getTime() + EXPIRATION_MINUTES * 60000),
     },
   });
