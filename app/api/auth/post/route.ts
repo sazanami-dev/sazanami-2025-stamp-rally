@@ -28,12 +28,14 @@ export async function GET(request: NextRequest) {
   const expires = new Date(claims.exp * 1000); // JWTのexpクレームを使用して有効期限を設定
   response.cookies.set({
     name: "token",
+    path: "/",
     value: waiting.token!,
     httpOnly: true,
-    secure: true,
     expires,
   });
 
+  logger.success(`User authenticated successfully, redirecting to: ${redirectUrl.toString()}`);
+  
   return response;
 }
 
