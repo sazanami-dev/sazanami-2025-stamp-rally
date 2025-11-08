@@ -19,7 +19,9 @@ export async function middleware(request: NextRequest) {
   }
 
   if (request.nextUrl.searchParams.get('postAuth') === 'true') {
-    return NextResponse.rewrite(baseUrl.pathname = '/api/auth/post');
+    const postProcessUrl = new URL(baseUrl.toString())
+    postProcessUrl.pathname = '/api/auth/post'
+    return NextResponse.rewrite(postProcessUrl.toString())
   }
 
   // Cookieのトークンをチェック
