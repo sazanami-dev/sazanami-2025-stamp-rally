@@ -2,6 +2,9 @@ import { ServerEnvKey, ServerEnvUtil } from '@/lib/serverEnv';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { createWaiting } from '@/services/auth/waiting';
+import Logger from '@/lib/logger';
+
+const logger = new Logger('api', 'auth', 'prepare');
 
 export async function GET(request: NextRequest) {
   const coreAuthBaseUrl = new URL(ServerEnvUtil.get(ServerEnvKey.CORE_AUTH_BASE_URL));
@@ -16,10 +19,15 @@ export async function GET(request: NextRequest) {
   redirectUrl.searchParams.set('postAuth', 'true');
   redirectUrl.searchParams.set('state', waiting.id);
 
+  const postbackUrl = new URL(baseUrl.toString());
+  postbackUrl.pathname = '/api/auth/postback';
+
   coreAuthBaseUrl.pathname = '/authenticate';
   coreAuthBaseUrl.searchParams.set('redirectUrl', redirectUrl.toString());
-  coreAuthBaseUrl.searchParams.set('postbackUrl', baseUrl.pathname = '/api/auth/callback');
+  coreAuthBaseUrl.searchParams.set('postbackUrl', postbackUrl.toString());
   coreAuthBaseUrl.searchParams.set('state', waiting.id);
+
+  logger.info(`Redirecting to Core Auth: ${coreAuthBaseUrl.toString()} (waiting id: ${waiting.id}, redirectTo: ${nextUrl}, postbackUrl: ${postbackUrl.toString()}, redirectUrl: ${redirectUrl.toString()})`);
 
   return NextResponse.redirect(coreAuthBaseUrl.toString());
 }
