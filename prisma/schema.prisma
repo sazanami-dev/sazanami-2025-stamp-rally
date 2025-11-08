@@ -74,5 +74,5 @@ model SetTokenWaiting {
   id        String    @id @default(nanoid(8))
   token     String?   @unique
   createdAt DateTime  @default(now())
-  expiresAt DateTime?
+  expiresAt DateTime
 }
