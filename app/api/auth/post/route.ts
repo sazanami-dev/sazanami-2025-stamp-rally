@@ -21,7 +21,10 @@ export async function GET(request: NextRequest) {
 
   const claims = await verifyToken(waiting.token!);
 
-  const response = NextResponse.next();
+  const redirectUrl = request.nextUrl;
+  redirectUrl.searchParams.delete("postAuth");
+  redirectUrl.searchParams.delete("state");
+  const response = NextResponse.redirect(redirectUrl.toString());
   const expires = new Date(claims.exp * 1000); // JWTのexpクレームを使用して有効期限を設定
   response.cookies.set({
     name: "token",
@@ -30,5 +33,7 @@ export async function GET(request: NextRequest) {
     secure: true,
     expires,
   });
+
   return response;
 }
+
