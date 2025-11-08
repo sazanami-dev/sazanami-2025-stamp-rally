@@ -2,8 +2,20 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { verifyToken } from './services/auth/sign'
 import { ServerEnvKey, ServerEnvUtil } from './lib/serverEnv'
- 
+
 export async function middleware(request: NextRequest) {
+
+  // Bypass auth (for debug use only)
+  if (request.nextUrl.searchParams.get('bypassAuth') === 'true') {
+    return NextResponse.next()
+  }
+
+  // Bypass static files and API routes
+  if (request.nextUrl.pathname.startsWith('/_next/') ||
+    request.nextUrl.pathname.startsWith('/api/')) {
+    return NextResponse.next()
+  }
+
   // Cookieのトークンをチェック
   const token = request.cookies.get('token')?.value
 
@@ -25,6 +37,7 @@ export async function middleware(request: NextRequest) {
 
     coreAuthBaseUrl.pathname = '/authenticate';
     coreAuthBaseUrl.searchParams.set('redirectUrl', url.toString());
+    coreAuthBaseUrl.searchParams.set('postbackUrl', url.origin + '/api/auth/callback');
     return NextResponse.redirect(coreAuthBaseUrl);
   }
 }
