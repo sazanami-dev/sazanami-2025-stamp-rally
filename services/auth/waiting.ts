@@ -2,6 +2,21 @@ import { prisma } from "@/lib/prisma";
 
 const EXPIRATION_MINUTES = 15; // TODO: Move to env variable
 
+// 呼び出し元でハンドリングしたいので
+export class WaitingEntryNotFoundError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "WaitingEntryNotFoundError";
+  }
+}
+
+export class WaitingEntryExpiredError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "WaitingEntryExpiredError";
+  }
+}
+
 async function createWaiting() {
   const now = new Date();
   const waiting = await prisma.setTokenWaiting.create({
@@ -25,10 +40,10 @@ async function resolveWaiting(waitingId: string) {
     where: { id: waitingId },
   });
   if (!waiting) {
-    throw new Error("Waiting entry not found");
+    throw new WaitingEntryNotFoundError("Waiting entry not found");
   }
   if (waiting.expiresAt < new Date()) {
-    throw new Error("Waiting entry has expired");
+    throw new WaitingEntryExpiredError("Waiting entry has expired");
   }
 
   // Delete the waiting entry after resolving
