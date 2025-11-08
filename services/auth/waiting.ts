@@ -38,3 +38,5 @@ async function resolveWaiting(waitingId: string) {
 
   return waiting;
 }
+
+export { createWaiting, setToken, resolveWaiting };
