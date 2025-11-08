@@ -13,6 +13,7 @@ export async function GET(request: NextRequest) {
 
   const redirectUrl = baseUrl;
 
+  redirectUrl.pathname = '/auth/post';
   redirectUrl.searchParams.set('postAuth', 'true');
   redirectUrl.searchParams.set('state', waiting.id);
 
