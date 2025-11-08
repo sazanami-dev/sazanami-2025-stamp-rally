@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { verifyToken } from './services/auth/sign'
-import { createWaiting } from './services/auth/waiting'
 import { ServerEnvKey, ServerEnvUtil } from './lib/serverEnv'
 
 export async function middleware(request: NextRequest) {
+
+  const baseUrl = new URL(ServerEnvUtil.get(ServerEnvKey.BASE_URL))
 
   // Bypass auth (for debug use only)
   if (request.nextUrl.searchParams.get('bypassAuth') === 'true') {
@@ -32,19 +33,10 @@ export async function middleware(request: NextRequest) {
   }
 
   if (!isValidToken) {
-    // Redirect to coreAuth if token is invalid or missing
-    const url = request.nextUrl.clone()
-    const coreAuthBaseUrl = new URL(ServerEnvUtil.get(ServerEnvKey.CORE_AUTH_BASE_URL));
-
-    /* WONTFIX: スケーラビリティとかを考慮するならMiddlewareがグローバルやDBに依存することは避けるべきらしい
-     * 規模的にどう考えてもスケーラビリティを考慮する必要がないのでとりあえず
-     */
-    const waiting = await createWaiting();
-
-    coreAuthBaseUrl.pathname = '/authenticate';
-    coreAuthBaseUrl.searchParams.set('redirectUrl', url.toString());
-    coreAuthBaseUrl.searchParams.set('postbackUrl', url.origin + '/api/auth/callback');
-    coreAuthBaseUrl.searchParams.set('state', waiting.id);
-    return NextResponse.redirect(coreAuthBaseUrl);
+    // return NextResponse.rewrite(baseUrl.pathname = '/api/auth/prepare') // こっちのほうがUXはいいっぽいけど
+    baseUrl.pathname = '/api/auth/prepare'
+    baseUrl.searchParams.set('redirectTo', request.nextUrl.toString())
+    return NextResponse.redirect(baseUrl.toString())
   }
+  return NextResponse.next()
 }
