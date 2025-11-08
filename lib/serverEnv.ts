@@ -34,6 +34,7 @@ export const { config: envDefinitions, keys: ServerEnvKey } = createEnvConfig({
   PLACEHOLDER_BOOL: { type: 'boolean', default: false }, // 型エラーを吐いてしまうので
   CORE_AUTH_BASE_URL: { type: 'string', default: 'http://localhost:3000' },
   CORE_AUTH_STATIC_KID: { type: 'string', default: 'default' },
+  BASE_URL: { type: 'string', default: 'http://localhost:4000' },
 });
 
 type EnvConfig = typeof envDefinitions;
