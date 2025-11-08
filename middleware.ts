@@ -27,8 +27,6 @@ export async function middleware(request: NextRequest) {
   // Cookieのトークンをチェック
   const token = request.cookies.get('token')?.value
 
-  console.log(`Checking token: ${token}`)
-
   let isValidToken = false
 
   if (token) {
@@ -41,7 +39,6 @@ export async function middleware(request: NextRequest) {
   }
 
   if (!isValidToken) {
-    console.log('Invalid or missing token, redirecting to auth prepare')
     // return NextResponse.rewrite(baseUrl.pathname = '/api/auth/prepare') // こっちのほうがUXはいいっぽいけど
     baseUrl.pathname = '/api/auth/prepare'
     baseUrl.searchParams.set('redirectTo', request.nextUrl.toString())
