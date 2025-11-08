@@ -18,11 +18,10 @@ export class WaitingEntryExpiredError extends Error {
   }
 }
 
-async function createWaiting(redirectTo?: string) {
+async function createWaiting() {
   const now = new Date();
   const waiting = await prisma.setTokenWaiting.create({
     data: {
-      redirectTo: redirectTo || null,
       expiresAt: new Date(now.getTime() + EXPIRATION_MINUTES * 60000),
     },
   });

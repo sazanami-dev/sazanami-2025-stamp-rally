@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
 
   const nextUrl = request.nextUrl.searchParams.get('redirectTo') || undefined;
   
-  const waiting = await createWaiting(nextUrl);
+  const waiting = await createWaiting();
 
   const redirectUrl = nextUrl ? new URL(nextUrl) : new URL(baseUrl.toString());
 
