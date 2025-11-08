@@ -73,7 +73,6 @@ model Achievement {
 model SetTokenWaiting {
   id         String   @id @default(nanoid(8))
   token      String?  @unique
-  redirectTo String?
   createdAt  DateTime @default(now())
   expiresAt  DateTime
 }
