@@ -8,4 +8,7 @@ export async function POST(request: NextRequest) {
   const body = await request.json();
   const token = body.token;
   console.log('Received token from coreAuth:', token);
+
+  // coreAuthには200を返す
+  return NextResponse.json({ status: 'ok' });
 }
