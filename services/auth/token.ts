@@ -1,8 +1,8 @@
-import jwt from 'jsonwebtoken';
 import { TokenClaims, TokenClaimsSchema } from '@/types/schema/tokenClaims';
 import { ServerEnvKey, ServerEnvUtil } from '@/lib/serverEnv';
 import { createRemoteJWKSet, jwtVerify } from 'jose';
 
+// VerifyTokenと統一してしまってもいい気がする
 async function decodeToken(token: string): Promise<TokenClaims> {
   const coreAuthBaseUrl = new URL(ServerEnvUtil.get(ServerEnvKey.CORE_AUTH_BASE_URL));
   const jwksUrl = new URL('/.well-known/jwks.json', coreAuthBaseUrl);
