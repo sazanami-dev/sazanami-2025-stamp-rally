@@ -24,6 +24,27 @@ async function getUserById(userId: string) {
   return user;
 }
 
+async function isUserExists(userId: string): Promise<boolean> {
+  let exists = false;
+  try {
+    const count = await prisma.user.count({
+      where: { id: userId },
+    });
+    exists = count > 0;
+  } catch (error) {
+    if (error instanceof PrismaClientKnownRequestError) {
+      wrapPrismaKnownErrorHelper(error);
+    } else {
+      throw new DataUnknownError("An unknown error occurred while checking user existence", {
+        userNotice: "ユーザーの存在確認中に不明なエラーが発生しました。",
+        errorCode: "DATA_UNKNOWN_ERROR",
+      });
+    }
+  }
+
+  return exists;
+}
+
 async function createUser(userData: CreateUser): Promise<User> {
   let newUser: User;
   try {
@@ -63,4 +84,4 @@ function wrapPrismaKnownErrorHelper(error: unknown): never {
   throw error;
 }
 
-export { getUserById, createUser };
+export { getUserById, createUser, isUserExists };
