@@ -29,7 +29,6 @@ export async function GET(request: NextRequest) {
   logger.info(`Post-auth processing for waiting id: ${waiting.id}`);
   logger.debug(`Resolved waiting: ${JSON.stringify(waiting)}`);
 
-
   try {
     claims = await decodeToken(waiting.token!);
     if (!claims || !claims.uid) {
@@ -97,4 +96,3 @@ export async function GET(request: NextRequest) {
 
   return response;
 }
-
