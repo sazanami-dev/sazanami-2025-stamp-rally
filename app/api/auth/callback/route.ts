@@ -38,19 +38,6 @@ export async function POST(request: NextRequest) {
     }
   });
 
-  if (!await isUserExists(claims.uid)) {
-    const createdUser = createUser({
-      id: claims.uid,
-      displayName: "TODO",
-      generated: true,
-    }).catch((error) => {
-      console.error('Error creating user:', error);
-      return NextResponse.json({ status: 'error', message: 'Failed to create user' }, { status: 500 });
-    });
-  }
-
-
-
   // coreAuthには200を返す
   return NextResponse.json({ status: 'ok' });
 }
