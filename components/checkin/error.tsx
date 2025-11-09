@@ -4,8 +4,8 @@ import { TbAlertCircle } from "react-icons/tb";
 
 // Props
 type CheckinErrorProps = {
-  error: string;
-  errorDetail?: string;
+  error: string | null;
+  errorDetail?: string | null;
 };
 
 export default function CheckinError({ error }: CheckinErrorProps) {
