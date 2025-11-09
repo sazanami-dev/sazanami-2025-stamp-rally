@@ -2,9 +2,9 @@ import { User, Category, Checkpoint } from "@prisma/client";
 
 // 固定ユーザー
 const staticUsers: Omit<User, "createdAt">[] = [
-  { id: "alice", displayName: "Alice" },
-  { id: "bob", displayName: "Bob" },
-  { id: "charlie", displayName: "Charlie" },
+  { id: "alice", displayName: "Alice", generated: false },
+  { id: "bob", displayName: "Bob", generated: false },
+  { id: "charlie", displayName: "Charlie", generated: false },
 ];
 
 const staticCategories: Omit<Category, "createdAt">[] = [
