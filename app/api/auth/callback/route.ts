@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { setToken, WaitingEntryExpiredError, WaitingEntryNotFoundError } from '@/services/auth/waiting';
-import { verifyToken } from '@/services/auth/sign';
+import { decodeToken } from '@/services/auth/token';
 
 // catch post from coreAuth
 
@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ status: 'error', message: 'Missing token or state' }, { status: 400 });
   }
 
-  if (!(await verifyToken(token))) {
+  if (!await decodeToken(token)) {
     return NextResponse.json({ status: 'error', message: 'Invalid token' }, { status: 400 });
   }
 
