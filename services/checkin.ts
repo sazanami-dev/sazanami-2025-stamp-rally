@@ -81,7 +81,7 @@ async function getUserCheckinsWithPagination(userId: string, page: number, pageS
   }
 }
 
-export { recordCheckIn, getUserCheckIns };
+export { recordCheckIn, getUserCheckIns, getUserCheckinsWithPagination };
 
 function wrapPrismaKnownErrorHelper(error: unknown): never {
   if (error instanceof PrismaClientKnownRequestError) {
