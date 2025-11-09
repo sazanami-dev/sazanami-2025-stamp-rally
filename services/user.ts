@@ -67,6 +67,26 @@ async function createUser(userData: CreateUser): Promise<User> {
   return newUser;
 }
 
+async function updateUser(userId: string, updateData: Partial<CreateUser>): Promise<User> {
+  let updatedUser: User;
+  try {
+    updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: updateData,
+    });
+  } catch (error) {
+    if (error instanceof PrismaClientKnownRequestError) {
+      wrapPrismaKnownErrorHelper(error);
+    } else {
+      throw new DataUnknownError("An unknown error occurred while updating user", {
+        userNotice: "ユーザーの更新中に不明なエラーが発生しました。",
+        errorCode: "DATA_UNKNOWN_ERROR",
+      });
+    }
+  }
+  return updatedUser;
+}
+
 function wrapPrismaKnownErrorHelper(error: unknown): never {
   if (error instanceof PrismaClientKnownRequestError) {
     if (PrismaErrorCodesByType.DataNotFound.includes(error.code)) {
@@ -84,4 +104,4 @@ function wrapPrismaKnownErrorHelper(error: unknown): never {
   throw error;
 }
 
-export { getUserById, createUser, isUserExists };
+export { getUserById, createUser, isUserExists, updateUser };
