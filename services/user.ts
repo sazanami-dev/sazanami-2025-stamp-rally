@@ -3,6 +3,10 @@ import { CreateUser } from "@/types/schema/user";
 import { User } from "@prisma/client";
 
 async function getUserById(userId: string) {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+  });
+  return user;
 }
 
 async function createUser(userData: CreateUser): Promise<User> {
