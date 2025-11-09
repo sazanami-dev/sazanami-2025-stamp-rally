@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { verifyToken } from './services/auth/sign'
+import { decodeToken } from './services/auth/token'
 import { ServerEnvKey, ServerEnvUtil } from './lib/serverEnv'
 
 export async function middleware(request: NextRequest) {
@@ -32,7 +32,7 @@ export async function middleware(request: NextRequest) {
   if (token) {
     try {
       // トークンの検証
-      isValidToken = await verifyToken(token)
+      await decodeToken(token)
     } catch (error) {
       isValidToken = false
     }
