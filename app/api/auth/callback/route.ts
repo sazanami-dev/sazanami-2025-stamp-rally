@@ -3,10 +3,6 @@ import type { NextRequest } from 'next/server';
 import { setToken, WaitingEntryExpiredError, WaitingEntryNotFoundError } from '@/services/auth/waiting';
 import { decodeToken } from '@/services/auth/token';
 import { TokenClaims } from '@/types/schema/tokenClaims';
-import { createUser, isUserExists } from '@/services/user';
-import { makeErrorPageUrlHelper } from '@/lib/makeErrorPageUrlHelper';
-
-// catch post from coreAuth
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
