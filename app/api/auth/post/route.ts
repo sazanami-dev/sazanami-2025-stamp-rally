@@ -4,8 +4,9 @@ import { decodeToken } from "@/services/auth/token";
 import { makeErrorPageUrlHelper } from '@/lib/makeErrorPageUrlHelper';
 import Logger from "@/lib/logger";
 import { TokenClaims } from "@/types/schema/tokenClaims";
-import { createUser, isUserExists } from "@/services/user";
+import { createUser, getUserById, isUserExists, updateUser } from "@/services/user";
 import authApi from "@/services/auth/api";
+import { User } from "@prisma/client";
 
 const logger = new Logger("api", "auth", "post");
 
@@ -21,7 +22,7 @@ export async function GET(request: NextRequest) {
   if (!state) {
     const errorPageUrl = makeErrorPageUrlHelper(
       "MISSING_STATE",
-      "認証の事後処理に失敗しました",
+      "不正なリクエストです",
       "stateパラメータは必須です")
     return NextResponse.redirect(errorPageUrl);
   }
@@ -53,6 +54,7 @@ export async function GET(request: NextRequest) {
           Authorization: `Bearer ${waiting.token!}`,
         },
       });
+    logger.info(`Fetched user info for uid: ${claims.uid} (displayName: ${res.data.displayName})`);
     userInfo = res.data;
   } catch (error) {
     logger.error(`Failed to fetch user info for uid: ${claims!.uid} - ${(error as Error).message}`);
@@ -63,7 +65,6 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.redirect(errorPageUrl);
   }
-
 
   if (!await isUserExists(claims.uid)) {
     try {
@@ -82,7 +83,42 @@ export async function GET(request: NextRequest) {
     }
 
     logger.success(`Created new user for uid: ${claims.uid}`);
+  } else {
+    let user: User | null = null;
+    try {
+      user = await getUserById(claims.uid);
+    } catch (error) {
+      logger.error(`Error fetching user for uid: ${claims!.uid} - ${(error as Error).message}`);
+      const errorPageUrl = makeErrorPageUrlHelper(
+        "USER_FETCH_FAILED",
+        "ユーザー情報の修正に失敗しました",
+        "既存のユーザーアカウントの情報取得中にエラーが発生しました");
+    }
+    if (!user) {
+      logger.error(`User not found after existence check for uid: ${claims!.uid}`);
+      const errorPageUrl = makeErrorPageUrlHelper(
+        "USER_NOT_FOUND",
+        "ユーザー情報の修正に失敗しました",
+        "異常なユーザーデータが取得されました");
+      return NextResponse.redirect(errorPageUrl);
+    }
+    if (user.generated && user.displayName !== userInfo.displayName) {
+      try {
+        await updateUser(claims.uid, {
+          displayName: userInfo.displayName || "No name",
+        });
+      } catch (error) {
+        logger.error(`Error updating user for uid: ${claims!.uid} - ${(error as Error).message}`);
+        const errorPageUrl = makeErrorPageUrlHelper(
+          "USER_UPDATE_FAILED",
+          "ユーザー情報の修正に失敗しました",
+          "情報更新中にエラーが発生しました");
+        return NextResponse.redirect(errorPageUrl);
+      }
+    }
   }
+
+
 
   const redirectUrl = request.nextUrl;
   redirectUrl.searchParams.delete("postAuth");
