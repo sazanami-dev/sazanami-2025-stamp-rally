@@ -27,8 +27,9 @@ async function createAchivementContext(checkinId: string) {
   };
 }
 
-async function process(checkinId: string) {
+async function process(checkinId: string): Promise<string[]> {
   logger.info(`Processing achievements for checkin ${checkinId}`);
+  const earnedAchievements: string[] = [];
   const context = await createAchivementContext(checkinId);
   for (const achievement of Achievements) {
     try {
@@ -42,6 +43,7 @@ async function process(checkinId: string) {
               achievementId: achievement.id,
             },
           });
+          earnedAchievements.push(achievement.id);
           logger.info(
             `User ${context.userId} earned achievement ${achievement.id}`
           );
@@ -51,6 +53,8 @@ async function process(checkinId: string) {
       logger.error(`Error processing achievement ${achievement.id}: ${error}`);
     }
   }
+
+  return earnedAchievements;
 }
 
 export { process as processAchievements };
