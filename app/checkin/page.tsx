@@ -1,26 +1,36 @@
+"use client";
 import CheckinWait from "@/components/checkin/wait";
 import CheckinError from "@/components/checkin/error";
 import CheckinComplete from "@/components/checkin/complete";
+import { useState } from "react";
 
 export default function CheckinPage() {
   // クエリパラメータからチェックポイントのIDを取得
   const searchParams = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '');
   const checkpointId = searchParams.get('ptid');
+
+  const [activeState, setActiveState] = useState<'waiting' | 'complete' | 'error'>('waiting');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [errorMessageDetail, setErrorMessageDetail] = useState<string | null>(null);
+
   if (!checkpointId) {
-    return ShowStateModalHelper(<CheckinError error="チェックポイントIDが指定されていません。" />);
+
   }
 
   // チェックポイントの存在確認
   // クールダウン中でないかを確認
   // チェックイン処理を試行
 
-  return ShowStateModalHelper(<CheckinError error="不明なエラーが発生しました。" />);
-}
-
-function ShowStateModalHelper(node: React.ReactNode) {
-  return (
+  return <>
     <div className="flex flex-col items-center justify-center min-h-screen py-12 px-4 gap-6">
-      {node}
+      {activeState === 'waiting' ?
+        <CheckinWait />
+        : activeState === 'complete' ?
+          <CheckinComplete achieved={[]} />
+          : activeState === 'error' ?
+            <CheckinError error={errorMessage} errorDetail={errorMessageDetail} />
+            : null
+      }
     </div>
-  );
+  </>
 }
