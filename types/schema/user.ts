@@ -7,7 +7,9 @@ export const UserSchema = z.object({
   createdAt: z.date().optional(),
 });
 
-export const createUserSchema = UserSchema.omit({ createdAt: true });
+export const createUserSchema = UserSchema.omit({ id: true, createdAt: true }).extend({
+  id: z.string().optional(),
+});
 
 export type User = z.infer<typeof UserSchema>;
 export type CreateUser = z.infer<typeof createUserSchema>;
