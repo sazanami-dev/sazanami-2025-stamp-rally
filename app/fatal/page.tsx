@@ -3,8 +3,6 @@ import { useEffect, useState } from "react";
 import { PiSealWarningDuotone, PiChatCenteredTextDuotone, PiCodeDuotone } from "react-icons/pi";
 
 export default function FatalPage() {
-  // Get error info from URL params
-  // const params = new URLSearchParams(window.location.search);
   const params = new URLSearchParams(typeof window !== "undefined" ? window.location.search : "");
 
   const [errorMessage, setErrorMessage] = useState<string | null>("不明なエラーが発生しました");
@@ -59,5 +57,4 @@ export default function FatalPage() {
       </div>
     </div>
   </>
-
 }
