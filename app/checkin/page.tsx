@@ -12,6 +12,7 @@ export default function CheckinPage() {
   const [activeState, setActiveState] = useState<'waiting' | 'complete' | 'error'>('waiting');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [errorMessageDetail, setErrorMessageDetail] = useState<string | null>(null);
+  const [achievedCheckpoints, setAchievedCheckpoints] = useState<Array<string>>([]);
 
   if (!checkpointId) {
 
@@ -26,7 +27,7 @@ export default function CheckinPage() {
       {activeState === 'waiting' ?
         <CheckinWait />
         : activeState === 'complete' ?
-          <CheckinComplete achieved={[]} />
+          <CheckinComplete achieved={achievedCheckpoints} />
           : activeState === 'error' ?
             <CheckinError error={errorMessage} errorDetail={errorMessageDetail} />
             : null

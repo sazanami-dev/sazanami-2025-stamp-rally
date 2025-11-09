@@ -53,4 +53,4 @@ async function process(checkinId: string) {
   }
 }
 
-export { process };
+export { process as processAchievements };
