@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { resolveWaiting } from "@/services/auth/waiting";
-import { verifyToken } from "@/services/auth/sign";
+import { decodeToken } from "@/services/auth/token";
 import Logger from "@/lib/logger";
 
 const logger = new Logger("api", "auth", "post");
@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
   logger.info(`Post-auth processing for waiting id: ${waiting.id}`);
   logger.debug(`Resolved waiting: ${JSON.stringify(waiting)}`);
 
-  const claims = await verifyToken(waiting.token!);
+  const claims = await decodeToken(waiting.token!);
 
   const redirectUrl = request.nextUrl;
   redirectUrl.searchParams.delete("postAuth");
