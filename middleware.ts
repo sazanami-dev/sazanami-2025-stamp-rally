@@ -32,7 +32,10 @@ export async function middleware(request: NextRequest) {
   if (token) {
     try {
       // トークンの検証
-      await decodeToken(token)
+      const claims = await decodeToken(token)
+      if (claims) {
+        isValidToken = true
+      }
     } catch (error) {
       isValidToken = false
     }
