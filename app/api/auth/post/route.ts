@@ -44,37 +44,42 @@ export async function GET(request: NextRequest) {
   }
 
   const api = authApi();
-  const userInfo = await api.get(
-    {
-      path: '/i',
-      headers: {
-        Authorization: `Bearer ${waiting.token!}`,
-      },
-    })
-    .then(res => res.data)
-    .catch(error => {
-      logger.error(`Failed to fetch user info for uid: ${claims!.uid} - ${(error as Error).message}`);
-      const errorPageUrl = makeErrorPageUrlHelper(
-        "USER_INFO_FETCH_FAILED",
-        "ユーザー情報の取得に失敗しました",
-        "認証サーバーからユーザー情報を取得できませんでした");
+  let userInfo: any;
+  try {
+    const res = await api.get(
+      {
+        path: '/i',
+        headers: {
+          Authorization: `Bearer ${waiting.token!}`,
+        },
+      });
+    userInfo = res.data;
+  } catch (error) {
+    logger.error(`Failed to fetch user info for uid: ${claims!.uid} - ${(error as Error).message}`);
+    const errorPageUrl = makeErrorPageUrlHelper(
+      "USER_INFO_FETCH_FAILED",
+      "ユーザー情報の取得に失敗しました",
+      "認証サーバーからユーザー情報を取得できませんでした");
 
-      return NextResponse.redirect(errorPageUrl);
-    });
+    return NextResponse.redirect(errorPageUrl);
+  }
+
 
   if (!await isUserExists(claims.uid)) {
-    await createUser({
-      id: claims.uid,
-      displayName: userInfo.displayName || "No name",
-      generated: true,
-    }).catch((error) => {
+    try {
+      await createUser({
+        id: claims.uid,
+        displayName: userInfo.displayName || "No name",
+        generated: true,
+      });
+    } catch (error) {
       logger.error(`Error creating user for uid: ${claims!.uid} - ${(error as Error).message}`);
       const errorPageUrl = makeErrorPageUrlHelper(
         "USER_CREATION_FAILED",
         "ユーザーの生成に失敗しました",
         "新しいユーザーアカウントの生成中にエラーが発生しました");
       return NextResponse.redirect(errorPageUrl);
-    });
+    }
 
     logger.success(`Created new user for uid: ${claims.uid}`);
   }
