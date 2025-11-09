@@ -119,8 +119,6 @@ export async function GET(request: NextRequest) {
     }
   }
 
-
-
   const redirectUrl = request.nextUrl;
   redirectUrl.searchParams.delete("postAuth");
   redirectUrl.searchParams.delete("state");
