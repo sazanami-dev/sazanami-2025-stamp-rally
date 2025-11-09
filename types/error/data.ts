@@ -14,6 +14,20 @@ class DataNotFoundError extends BaseCustomError {
   }
 }
 
+class DataCreationError extends BaseCustomError {
+  constructor(message: string, extra?: { userNotice?: string; errorCode?: string }) {
+    super(message, extra);
+    this.name = "DataCreationError";
+    if (!extra?.userNotice) {
+      this.setUserNotice("データの作成に失敗しました。");
+    }
+    if (!extra?.errorCode) {
+      this.setErrorCode("DATA_CREATION_ERROR");
+    }
+    Object.setPrototypeOf(this, DataCreationError.prototype);
+  }
+}
+
 class DataValidationError extends BaseCustomError {
   constructor(message: string, extra?: { userNotice?: string; errorCode?: string }) {
     super(message, extra);
@@ -42,4 +56,4 @@ class DataUnknownError extends BaseCustomError {
   }
 }
 
-export { DataNotFoundError, DataValidationError, DataUnknownError };
+export { DataNotFoundError, DataValidationError, DataUnknownError, DataCreationError };
