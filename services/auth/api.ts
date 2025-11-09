@@ -8,7 +8,7 @@ const authApi = () => {
   });
 
   return {
-    get: async (arg: { path: string, params?: Record<string, any> }) => {
+    get: async (arg: { path: string, params?: Record<string, any>, headers?: Record<string, any> }) => {
       const { path, params } = arg;
       const response = await apiClient.get(path, { params });
       return response.data;
