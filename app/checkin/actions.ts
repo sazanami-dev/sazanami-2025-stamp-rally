@@ -13,7 +13,6 @@ export async function processCheckInWrapper(checkpointId: string): Promise<Check
   const cookieStore = await cookies();
   const token = cookieStore.get('token')?.value;
   const claims = token ? await decodeToken(token) : null;
-  // そもそも検証はmiddlewareでやられている（ここにたどり着いている時点で有効なトークンを持っていないとおかしい）
   if (!token || !claims || !claims.uid) {
     // エラーページに飛ばす(そもそもありえない状況だけど)
     throw new Error('Unauthorized access: invalid or missing token');
