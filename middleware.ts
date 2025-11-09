@@ -12,10 +12,8 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // Bypass static files and API routes
-  if (request.nextUrl.pathname.startsWith('/_next/') ||
-    request.nextUrl.pathname.startsWith('/api/')) {
-    return NextResponse.next()
+  if (request.nextUrl.pathname.startsWith('/_next/') || request.nextUrl.pathname.startsWith('/static/') || request.nextUrl.pathname.startsWith('/api/') || request.nextUrl.pathname.startsWith('/error') || request.nextUrl.pathname.startsWith('/fatal')) {
+    return NextResponse.next();
   }
 
   if (request.nextUrl.searchParams.get('postAuth') === 'true') {
