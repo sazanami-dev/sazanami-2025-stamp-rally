@@ -12,10 +12,6 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  if (request.nextUrl.pathname.startsWith('/_next/') || request.nextUrl.pathname.startsWith('/static/') || request.nextUrl.pathname.startsWith('/api/') || request.nextUrl.pathname.startsWith('/error') || request.nextUrl.pathname.startsWith('/fatal')) {
-    return NextResponse.next();
-  }
-
   if (request.nextUrl.searchParams.get('postAuth') === 'true') {
     const postProcessUrl = new URL(baseUrl.toString())
     postProcessUrl.pathname = '/api/auth/post'
@@ -46,4 +42,11 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(baseUrl.toString())
   }
   return NextResponse.next()
+}
+
+export const config = {
+  matcher: [
+    '/checkin/:path*',
+    '/',
+  ]
 }
