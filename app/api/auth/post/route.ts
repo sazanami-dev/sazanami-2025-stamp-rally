@@ -54,8 +54,7 @@ export async function GET(request: NextRequest) {
           Authorization: `Bearer ${waiting.token!}`,
         },
       });
-    // logger.info(`Fetched user info for uid: ${claims.uid} (displayName: ${res.data.displayName})`);
-    console.log(res.data);
+    logger.info(`Fetched user info for uid: ${claims.uid} (displayName: ${res.data.displayName})`);
     userInfo = res.data;
   } catch (error) {
     logger.error(`Failed to fetch user info for uid: ${claims!.uid} - ${(error as Error).message}`);
