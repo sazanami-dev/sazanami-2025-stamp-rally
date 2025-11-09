@@ -93,6 +93,7 @@ export async function GET(request: NextRequest) {
         "USER_FETCH_FAILED",
         "ユーザー情報の修正に失敗しました",
         "既存のユーザーアカウントの情報取得中にエラーが発生しました");
+      return NextResponse.redirect(errorPageUrl);
     }
     if (!user) {
       logger.error(`User not found after existence check for uid: ${claims!.uid}`);
