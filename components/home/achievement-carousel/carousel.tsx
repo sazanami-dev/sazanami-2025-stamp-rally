@@ -11,6 +11,7 @@ export function AchievementCarousel(props: AchievementCarouselProps) {
   const { achievementIds } = props;
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
+    align: "start",
   },
     [Autoplay()]
   );
