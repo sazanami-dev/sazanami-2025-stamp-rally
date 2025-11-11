@@ -60,7 +60,7 @@ export default function CheckinList(props: CheckinListProps) {
 
   return <>
     <LayoutGroup>
-      <div className="flex flex-col gap-1 mt-4">
+      <div className="flex flex-col gap-1 mt-4 w-full">
         <AnimatePresence>
           {listItems.map((item) => (
             <motion.div
