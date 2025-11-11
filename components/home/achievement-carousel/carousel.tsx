@@ -10,7 +10,7 @@ type AchievementCarouselProps = {
 export function AchievementCarousel(props: AchievementCarouselProps) {
   const { achievementIds } = props;
   const [emblaRef] = useEmblaCarousel({
-    loop: true,
+    loop: false,
     align: "start",
   },
     [Autoplay()]
