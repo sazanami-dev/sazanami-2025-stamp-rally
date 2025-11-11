@@ -6,6 +6,9 @@
 }
 .embla__container {
   display: flex;
+
+  /* Custom */
+  margin-left: 100px;
 }
 .embla__slide {
   flex: 0 0 100%;
@@ -13,4 +16,30 @@
 
   /* Custom */
   margin: 0 10px;
+}
+
+/* 両端フェード用のカスタムクラス */
+.fade-edges-x {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(0,0,0,0.02) 10px, /* 薄くフェード開始 */
+    rgba(0,0,0,0.1) 20px,
+    black 60px,             /* 不透明になる位置を調整 */
+    black calc(100% - 60px),
+    rgba(0,0,0,0.1) calc(100% - 20px),
+    rgba(0,0,0,0.02) calc(100% - 10px),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(0,0,0,0.02) 10px,
+    rgba(0,0,0,0.1) 20px,
+    black 60px,
+    black calc(100% - 60px),
+    rgba(0,0,0,0.1) calc(100% - 20px),
+    rgba(0,0,0,0.02) calc(100% - 10px),
+    transparent 100%
+  );
 }

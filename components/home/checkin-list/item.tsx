@@ -50,7 +50,7 @@ export default function CheckinListItem(props: CheckinItemProps) {
 
 
   return <>
-    <Card shadow="sm" className="w-full max-w-md mx-auto my-4">
+    <Card shadow="sm" className="w-full max-w-md mx-auto">
       <CardHeader className="flex gap-3 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-t-lg">
         <div className="flex flex-col">
           <span className="font-semibold text-xl">{checkpointName}</span>
