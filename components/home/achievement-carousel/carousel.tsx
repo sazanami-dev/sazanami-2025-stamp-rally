@@ -9,15 +9,14 @@ type AchievementCarouselProps = {
 
 export function AchievementCarousel(props: AchievementCarouselProps) {
   const { achievementIds } = props;
-  const [emblaRef, emblaApi] = useEmblaCarousel({
+  const [emblaRef] = useEmblaCarousel({
     loop: true,
     align: "start",
   },
     [Autoplay()]
   );
 
-  // アチーブメントIDの中には重複があるので、idを生成してユニークにする
-  const uniqueAchievementItems = useMemo(() => {
+  const achievementItemsWithUniqueId = useMemo(() => {
     return achievementIds.map((id, index) => ({
       key: `${id}_${index}`,
       achievementId: id,
@@ -27,7 +26,7 @@ export function AchievementCarousel(props: AchievementCarouselProps) {
   return <>
     <div className="overflow-hidden embla" ref={emblaRef}>
       <div className="flex pb-4 embla__container">
-        {uniqueAchievementItems.map((item) => (
+        {achievementItemsWithUniqueId.map((item) => (
           <div
             className="flex-shrink-0"
             key={item.key}
