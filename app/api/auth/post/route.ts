@@ -7,12 +7,15 @@ import { TokenClaims } from "@/types/schema/tokenClaims";
 import { createUser, getUserById, isUserExists, updateUser } from "@/services/user";
 import authApi from "@/services/auth/api";
 import { User } from "@prisma/client";
+import { ServerEnvKey, ServerEnvUtil } from "@/lib/serverEnv";
 
 const logger = new Logger("api", "auth", "post");
 
 export async function GET(request: NextRequest) {
   const state = request.nextUrl.searchParams.get("state")!;
   const isPostAuth = request.nextUrl.searchParams.get("postAuth") === "true";
+  const redirectTo = request.nextUrl.searchParams.get("redirectTo");
+  const baseUrl = ServerEnvUtil.get(ServerEnvKey.BASE_URL);
   const waiting = await resolveWaiting(state);
   let claims: TokenClaims | null = null;
 
@@ -119,9 +122,11 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  const redirectUrl = request.nextUrl;
+  // const redirectUrl = request.nextUrl;
+  const redirectUrl = redirectTo ? new URL(redirectTo) : new URL(baseUrl);
   redirectUrl.searchParams.delete("postAuth");
   redirectUrl.searchParams.delete("state");
+  redirectUrl.searchParams.delete("redirectTo");
   const response = NextResponse.redirect(redirectUrl.toString());
   const expires = new Date(claims.exp * 1000); // JWTのexpクレームを使用して有効期限を設定
   response.cookies.set({
