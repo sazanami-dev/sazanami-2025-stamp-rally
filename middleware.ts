@@ -4,7 +4,6 @@ import { decodeToken } from './services/auth/token'
 import { ServerEnvKey, ServerEnvUtil } from './lib/serverEnv'
 
 export async function middleware(request: NextRequest) {
-
   const baseUrl = new URL(ServerEnvUtil.get(ServerEnvKey.BASE_URL))
 
   // Bypass auth (for debug use only)
@@ -37,8 +36,11 @@ export async function middleware(request: NextRequest) {
 
   if (!isValidToken) {
     // return NextResponse.rewrite(baseUrl.pathname = '/api/auth/prepare') // こっちのほうがUXはいいっぽいけど
+    const nextUrl = new URL(baseUrl.toString())
+    nextUrl.pathname = request.nextUrl.pathname
+
     baseUrl.pathname = '/api/auth/prepare'
-    baseUrl.searchParams.set('redirectTo', request.nextUrl.toString())
+    baseUrl.searchParams.set('redirectTo', nextUrl.toString())
     return NextResponse.redirect(baseUrl.toString())
   }
   return NextResponse.next()
