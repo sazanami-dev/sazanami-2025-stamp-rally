@@ -24,18 +24,21 @@ export default function Home() {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center h-full gap-6 bg-amber-200">
-        <h1 className="text-3xl font-bold mt-8">チェックイン履歴dbg</h1>
-        <CheckinList
-          checkins={checkins}
-          context={{ categories }}
-          loadMoreCallback={() => {
-            const nextPage = currentPage + 1;
-            setCurrentPage(nextPage);
-            appendCheckins(nextPage);
-          }}
-        />
-      <AchievementCarousel achievementIds={["debug_achievement", "debug_achievement", "debug_achievement", "debug_achievement", "debug_achievement", "debug_achievement", "debug_achievement"]} />
+      <div className="w-full h-full flex items-center justify-center">
+        <div className="flex flex-col items-center justify-center h-full gap-6 bg-amber-200 container">
+          <h1 className="text-3xl font-bold mt-8">チェックイン履歴dbg</h1>
+          <CheckinList
+            checkins={checkins}
+            context={{ categories }}
+            loadMoreCallback={() => {
+              const nextPage = currentPage + 1;
+              setCurrentPage(nextPage);
+              appendCheckins(nextPage);
+            }}
+          />
+          <AchievementCarousel achievementIds={["debug_achievement", "debug_achievement", "debug_achievement", "debug_achievement", "debug_achievement", "debug_achievement", "debug_achievement"]} />
+        </div>
+
       </div>
     </>
   );
