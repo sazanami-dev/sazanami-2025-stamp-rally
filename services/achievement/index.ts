@@ -57,4 +57,12 @@ async function process(checkinId: string): Promise<string[]> {
   return earnedAchievements;
 }
 
-export { process as processAchievements };
+async function getUserAchievements(userId: string): Promise<string[]> {
+  const achievementRecords = await prisma.achievement.findMany({
+    where: { userId },
+  });
+  return achievementRecords.map((record) => record.achievementId);
+}
+
+export { process as processAchievements, getUserAchievements };
+
