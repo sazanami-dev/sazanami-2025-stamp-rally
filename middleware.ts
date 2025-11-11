@@ -14,6 +14,8 @@ export async function middleware(request: NextRequest) {
   if (request.nextUrl.searchParams.get('postAuth') === 'true') {
     const postProcessUrl = new URL(baseUrl.toString())
     postProcessUrl.pathname = '/api/auth/post'
+    postProcessUrl.searchParams.set('state', request.nextUrl.searchParams.get('state') || '')
+    postProcessUrl.searchParams.set('postAuth', 'true')
     return NextResponse.rewrite(postProcessUrl.toString())
   }
 
@@ -48,6 +50,8 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
+    '/api/auth/prepare',
+    '/api/auth/post',
     '/checkin/:path*',
     '/',
   ]
