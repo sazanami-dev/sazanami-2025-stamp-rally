@@ -13,9 +13,12 @@ export async function middleware(request: NextRequest) {
 
   if (request.nextUrl.searchParams.get('postAuth') === 'true') {
     const postProcessUrl = new URL(baseUrl.toString())
+    const nextUrl = new URL(baseUrl.toString())
+    nextUrl.pathname = request.nextUrl.pathname
     postProcessUrl.pathname = '/api/auth/post'
     postProcessUrl.searchParams.set('state', request.nextUrl.searchParams.get('state') || '')
     postProcessUrl.searchParams.set('postAuth', 'true')
+    postProcessUrl.searchParams.set('redirectTo', nextUrl.toString())
     return NextResponse.rewrite(postProcessUrl.toString())
   }
 
@@ -40,7 +43,6 @@ export async function middleware(request: NextRequest) {
     // return NextResponse.rewrite(baseUrl.pathname = '/api/auth/prepare') // こっちのほうがUXはいいっぽいけど
     const nextUrl = new URL(baseUrl.toString())
     nextUrl.pathname = request.nextUrl.pathname
-
     baseUrl.pathname = '/api/auth/prepare'
     baseUrl.searchParams.set('redirectTo', nextUrl.toString())
     return NextResponse.redirect(baseUrl.toString())
@@ -50,8 +52,8 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/api/auth/prepare',
-    '/api/auth/post',
+    // '/api/auth/prepare',
+    // '/api/auth/post',
     '/checkin/:path*',
     '/',
   ]
