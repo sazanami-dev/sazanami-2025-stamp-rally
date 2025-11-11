@@ -6,10 +6,7 @@ import { LayoutGroup, AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 
 type CheckinListProps = {
-  checkins: Array<{
-    checkIn: Checkin;
-    checkpoint: Checkpoint;
-  }>;
+  checkins: (Checkin & { checkpoint: Checkpoint })[];
   context: {
     categories: Category[];
   }
@@ -38,7 +35,7 @@ export default function CheckinList(props: CheckinListProps) {
   }, [categories]);
 
   const listItems = useMemo(() => {
-    return checkins.map(({ checkIn, checkpoint }) => {
+    return checkins.map(({ id, createdAt, checkpoint }) => {
       let cooldownDuration;
       if (checkpoint.cooldownDurationOverride) {
         cooldownDuration = checkpoint.cooldownDurationOverride;
@@ -46,15 +43,13 @@ export default function CheckinList(props: CheckinListProps) {
         const category = categoryMap[checkpoint.categoryId];
         cooldownDuration = category ? category.cooldownDuration : 0;
       }
-
-      const cooldownEndTime = new Date(checkIn.createdAt.getTime() + cooldownDuration * 60000);
-
+      const cooldownEndTime = new Date(createdAt.getTime() + cooldownDuration * 60000);
       return {
-        id: checkIn.id,
+        id: id,
         displayName: checkpoint.displayName,
         // positionDescription: checkpoint.positionDescription || undefined, 
-        // message: checkIn.message || undefined,
-        checkinDate: checkIn.createdAt,
+        // message: message || undefined,
+        checkinDate: createdAt,
         categoryId: checkpoint.categoryId,
         cooldownEndTime: cooldownEndTime,
       }
