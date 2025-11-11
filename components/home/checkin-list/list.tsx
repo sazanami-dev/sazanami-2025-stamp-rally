@@ -3,7 +3,7 @@
 import { Category, Checkin, Checkpoint } from "@prisma/client";
 import CheckinListItem from "./item";
 import { LayoutGroup, AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type CheckinListProps = {
   checkins: Array<{
@@ -28,19 +28,17 @@ type ListItem = {
 export default function CheckinList(props: CheckinListProps) {
   const { checkins, context } = props;
   const { categories } = context;
-  const [categoryMap, setCategoryMap] = useState<Record<string, Category>>({});
-  const [listItems, setListItems] = useState<ListItem[]>([]);
 
-  const buildCategoryMap = () => {
+  const categoryMap = useMemo(() => {
     const map: Record<string, Category> = {};
     categories.forEach((category) => {
       map[category.id] = category;
     });
-    setCategoryMap(map);
-  }
+    return map;
+  }, [categories]);
 
-  const buildListItems = (checkins: CheckinListProps["checkins"], categoryMap: Record<string, Category>) => {
-    const items: ListItem[] = checkins.map(({ checkIn, checkpoint }) => {
+  const listItems = useMemo(() => {
+    return checkins.map(({ checkIn, checkpoint }) => {
       let cooldownDuration;
       if (checkpoint.cooldownDurationOverride) {
         cooldownDuration = checkpoint.cooldownDurationOverride;
@@ -54,22 +52,14 @@ export default function CheckinList(props: CheckinListProps) {
       return {
         id: checkIn.id,
         displayName: checkpoint.displayName,
-        // positionDescription: checkpoint.positionDescription || undefined,
+        // positionDescription: checkpoint.positionDescription || undefined, 
         // message: checkIn.message || undefined,
         checkinDate: checkIn.createdAt,
         categoryId: checkpoint.categoryId,
         cooldownEndTime: cooldownEndTime,
       }
     });
-    setListItems(items);
-
-  }
-
-  useEffect(() => {
-    // Initialize category map
-    buildCategoryMap();
-    buildListItems(checkins, categoryMap);
-  }, [checkins]);
+  }, [checkins, categoryMap]);
 
   return <>
     <LayoutGroup>
@@ -86,8 +76,8 @@ export default function CheckinList(props: CheckinListProps) {
             >
               <CheckinListItem
                 checkpointName={item.displayName}
-                positionDescription={item.positionDescription}
-                message={item.message}
+                // positionDescription={item.positionDescription}
+                // message={item.message}
                 categoryId={item.categoryId}
                 checkinTime={item.checkinDate}
                 cooldownEndTime={item.cooldownEndTime}
