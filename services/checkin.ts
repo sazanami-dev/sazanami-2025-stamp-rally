@@ -50,7 +50,7 @@ async function getUserCheckIns(userId: string) {
   }
 }
 
-async function getUserCheckinsWithPagination(userId: string, page: number, pageSize: number) {
+async function getUserCheckinsIncludeCheckpointWithPagination(userId: string, page: number, pageSize: number) {
   try {
     const totalCount = await prisma.checkin.count({
       where: { userId },
@@ -60,6 +60,9 @@ async function getUserCheckinsWithPagination(userId: string, page: number, pageS
       orderBy: { createdAt: 'desc' },
       skip: (page - 1) * pageSize,
       take: pageSize,
+      include: {
+        checkpoint: true,
+      },
     });
     logger.success(`Retrieved page ${page} of check-ins for user ${userId}`, 'getUserCheckinsWithPagination');
     return {
@@ -81,7 +84,7 @@ async function getUserCheckinsWithPagination(userId: string, page: number, pageS
   }
 }
 
-export { recordCheckIn, getUserCheckIns, getUserCheckinsWithPagination };
+export { recordCheckIn, getUserCheckIns, getUserCheckinsIncludeCheckpointWithPagination };
 
 function wrapPrismaKnownErrorHelper(error: unknown): never {
   if (error instanceof PrismaClientKnownRequestError) {
