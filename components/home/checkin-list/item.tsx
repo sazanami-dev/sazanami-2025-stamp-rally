@@ -3,11 +3,13 @@
 import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card"
 import { useEffect, useState } from "react";
 import { FaClock } from "react-icons/fa"
+import { getCategoryIcon } from "@/lib/front/mappers";
 
 type CheckinItemProps = {
   checkpointName: string;
   positionDescription?: string;
   message?: string;
+  categoryId?: string;
   checkinTime: Date;
   cooldownEndTime: Date;
 }
@@ -55,7 +57,8 @@ export default function CheckinListItem(props: CheckinItemProps) {
           <span className="text-sm opacity-80">{positionDescription}</span>
         </div>
         <div className="ml-auto mr-2 flex items-center">
-          <FaClock className="text-4xl mt-4 mb-4" />
+          {/* <FaClock className="text-4xl mt-4 mb-4" /> */}
+          {getCategoryIcon(props.categoryId || "fallback")({ className: "text-4xl mt-4 mb-4" })}
         </div>
       </CardHeader>
       {message &&
