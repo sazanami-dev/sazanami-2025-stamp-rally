@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { fetchCategories, fetchUserCheckins } from "./actions";
 import CheckinList from "@/components/home/checkin-list/list";
+import AchievementCarouselItem from "@/components/home/achievement-carousel/item";
 
 export default function Home() {
   const [checkins, setCheckins] = useState<Array<any>>([]);
@@ -34,6 +35,7 @@ export default function Home() {
           }}
         />
       </div>
+      <AchievementCarouselItem />
     </>
   );
 }
