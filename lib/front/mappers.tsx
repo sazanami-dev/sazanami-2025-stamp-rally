@@ -13,6 +13,28 @@ export function getCategoryIcon(categoryId: string) {
   }
 }
 
+type AchievementMetadata = {
+  title: string;
+  description: string;
+  condition: string;
+  icon: React.ComponentType<{ className?: string }>;
+  bgClass: string;
+  fgClass?: {
+    text?: string;
+    icon?: string;
+  };
+}
+
+const achievementMetadataMap: Record<string, AchievementMetadata> = {
+  "debug_achievement": {
+    title: "Debug Achievement",
+    description: "デバッグ用実績",
+    condition: "このメッセージが 見れるのは おかしいよ",
+    icon: IoHammerOutline, // TODO: Replace this
+    bgClass: "bg-gray-700",
+  },
+};
+
 export function getAchivementMetadata(achievementId: string) {
-  // TODO: Impl this
+  return achievementMetadataMap[achievementId];
 }
