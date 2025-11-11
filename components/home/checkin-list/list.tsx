@@ -4,12 +4,14 @@ import { Category, Checkin, Checkpoint } from "@prisma/client";
 import CheckinListItem from "./item";
 import { LayoutGroup, AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
+import { Button } from "@heroui/button";
 
 type CheckinListProps = {
   checkins: (Checkin & { checkpoint: Checkpoint })[];
   context: {
     categories: Category[];
-  }
+  },
+  loadMoreCallback: () => void;
 }
 
 type ListItem = {
@@ -81,6 +83,15 @@ export default function CheckinList(props: CheckinListProps) {
           ))}
         </AnimatePresence>
       </div>
+
+      {/* ページネーション とりあえずLoad moreボタン */}
+      <Button
+        className="w-full max-w-md mx-auto my-4"
+        variant="light"
+        onPress={() => {
+          props.loadMoreCallback();
+        }}
+      >もっと読み込む</Button>
 
     </LayoutGroup>
 
