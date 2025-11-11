@@ -8,8 +8,11 @@ export function getCategoryIcon(categoryId: string) {
       return IoHammerOutline;
     case "challenge":
       return IoGolfOutline;
-    case "unknown":
+    default:
       return IoHelpOutline;
   }
 }
 
+export function getAchivementMetadata(achievementId: string) {
+  // TODO: Impl this
+}
