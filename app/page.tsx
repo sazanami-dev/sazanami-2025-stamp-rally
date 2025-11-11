@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { fetchCategories, fetchUserCheckins } from "./actions";
 import CheckinList from "@/components/home/checkin-list/list";
 import AchievementCarouselItem from "@/components/home/achievement-carousel/item";
+import { AchievementCarousel } from "@/components/home/achievement-carousel/carousel";
 
 export default function Home() {
   const [checkins, setCheckins] = useState<Array<any>>([]);
@@ -34,8 +35,8 @@ export default function Home() {
             appendCheckins(nextPage);
           }}
         />
+      <AchievementCarousel achievementIds={["debug_achievement", "debug_achievement", "debug_achievement", "debug_achievement", "debug_achievement", "debug_achievement", "debug_achievement"]} />
       </div>
-      <AchievementCarouselItem />
     </>
   );
 }

@@ -13,12 +13,11 @@ export default function AchievementCarouselItem(props: AchievementCarouselItemPr
   const metadata = useMemo(() => {
     return getAchivementMetadata(achievementId);
   }, [achievementId]);
-
   return <>
     <Card
       isFooterBlurred
       radius="lg"
-      className="" // TODO
+      className="embla__slide"
       isPressable
       onPress={() => {
         if (props.onClick) {
