@@ -41,6 +41,9 @@ async function process(checkinId: string): Promise<string[]> {
   const context = await createAchivementContext(checkinId);
   for (const achievement of Achievements) {
     try {
+      if (achievement.id !== "debug_achievement" && context.earnedAchievements.has(achievement.id)) {
+        continue;
+      }
       const shouldExecute = await achievement.shouldExecute(context);
       if (shouldExecute) {
         const executed = await achievement.execute(context);
@@ -73,4 +76,3 @@ async function getUserAchievements(userId: string): Promise<string[]> {
 }
 
 export { process as processAchievements, getUserAchievements };
-
