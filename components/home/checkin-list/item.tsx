@@ -30,10 +30,7 @@ export default function CheckinListItem(props: CheckinItemProps) {
   }
 
   useEffect(() => {
-    const now = new Date();
-    setIsCooldownOver(now >= cooldownEndTime);
-    setFormattedCheckinTime(formatDate(checkinTime));
-    setInterval(() => {
+    const updateState = () => {
       const now = new Date();
       setIsCooldownOver(now >= cooldownEndTime);
       if (now < cooldownEndTime) {
@@ -44,9 +41,16 @@ export default function CheckinListItem(props: CheckinItemProps) {
       } else {
         setFormattedCooldownRemainingTime("終了済み");
       }
-    });
+    };
 
-  }, []);
+    setFormattedCheckinTime(formatDate(checkinTime));
+    updateState();
+    const timer = setInterval(updateState, 1000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [checkinTime, cooldownEndTime]);
 
 
   return <>
