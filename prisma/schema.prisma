@@ -29,6 +29,7 @@ model Checkpoint {
   floor                    Int
   categoryId               String
   category                 Category   @relation(fields: [categoryId], references: [id])
+  comment                  String?
   cooldownDurationOverride Int?
   createdAt                DateTime   @default(now())
   cooldowns                Cooldown[]
