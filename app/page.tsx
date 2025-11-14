@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
-import { fetchCategories, fetchCheckpoints, fetchUserCheckins } from "./actions";
+import { fetchCategories, fetchUserCheckins } from "./actions";
 import CheckinList from "@/components/home/checkin-list/list";
 import AchievementCarouselItem from "@/components/home/achievement-carousel/item";
 import { AchievementCarousel } from "@/components/home/achievement-carousel/carousel";
@@ -21,7 +21,6 @@ export default function Home() {
   useEffect(() => {
     appendCheckins();
     fetchCategories().then((cats) => setCategories(cats));
-    fetchCheckpoints().then((cps) => setCheckpoints(cps));
   }, []);
 
   return (
@@ -33,7 +32,7 @@ export default function Home() {
           </div>
           <CheckinList
             checkins={checkins}
-            context={{ categories, checkpoints }}
+            context={{ categories }}
             loadMoreCallback={() => {
               const nextPage = currentPage + 1;
               setCurrentPage(nextPage);

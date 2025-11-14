@@ -3,7 +3,6 @@ import { getUserCheckinsIncludeCheckpointWithPagination } from "@/services/check
 import { getUserAchievements } from "@/services/achievement";
 import { getUserInfoFromCookies } from "@/lib/get-user-info";
 import { getAllCategories } from "@/services/category";
-import { getAllCheckpoints } from "@/services/checkpoint";
 
 export async function fetchUserCheckins(page: number) {
   const userInfo = await getUserInfoFromCookies();
@@ -33,5 +32,4 @@ export async function fetchUserAchievements() {
 
 export async function fetchCheckpoints() {
   const checkpoints = await getAllCheckpoints();
-  return checkpoints;
 }
