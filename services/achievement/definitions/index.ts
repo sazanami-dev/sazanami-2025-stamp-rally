@@ -3,6 +3,7 @@ import { HelloWorldAchievement } from "./hello-world";
 import { ContinuousCheckinAchievement } from "./continuous-checkin";
 import { RapidCheckinAchievement } from "./rapid-checkin";
 import { FoodMasterAchievement } from "./food-master";
+import { FloorMasterAchievements } from "./floor-master";
 
 export default [
   DebugAchievement,
@@ -10,4 +11,5 @@ export default [
   ContinuousCheckinAchievement,
   RapidCheckinAchievement,
   FoodMasterAchievement,
+  ...FloorMasterAchievements,
 ];
