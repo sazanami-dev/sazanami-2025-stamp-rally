@@ -35,40 +35,57 @@ async function createAchivementContext(checkinId: string) {
   };
 }
 
+const DEBUG_CHECKPOINT_ID = "debug_checkpoint";
+const DEBUG_ACHIEVEMENT_ID = "debug_achievement";
+
+export function isDebugCheckpoint(checkpointId: string | undefined) {
+  return checkpointId === DEBUG_CHECKPOINT_ID;
+}
+
+export function shouldSkipAchievement(
+  achievementId: string,
+  context: Awaited<ReturnType<typeof createAchivementContext>>,
+  debugMode: boolean,
+) {
+  if (debugMode) return false;
+  if (achievementId === DEBUG_ACHIEVEMENT_ID) return false;
+  return context.earnedAchievements.has(achievementId);
+}
+
 async function process(checkinId: string): Promise<string[]> {
   logger.info(`Processing achievements for checkin ${checkinId}`);
   const earnedAchievements: string[] = [];
   const context = await createAchivementContext(checkinId);
-  const isDebugCheckpoint = context.checkin.checkpoint.id === "debug_checkpoint";
+  const debugMode = isDebugCheckpoint(context.checkin.checkpoint.id);
 
   for (const achievement of Achievements) {
     try {
-      if (!isDebugCheckpoint && achievement.id !== "debug_achievement" && context.earnedAchievements.has(achievement.id)) {
+      if (shouldSkipAchievement(achievement.id, context, debugMode)) {
         continue;
       }
 
-      const shouldExecute = isDebugCheckpoint
+      const shouldExecute = debugMode
         ? true
         : await achievement.shouldExecute(context);
 
-      if (shouldExecute) {
-        const executed = isDebugCheckpoint
-          ? true
-          : await achievement.execute(context);
+      if (!shouldExecute) continue;
 
-        if (executed) {
-          await prisma.achievement.create({
-            data: {
-              userId: context.userId,
-              achievementId: achievement.id,
-            },
-          });
-          earnedAchievements.push(achievement.id);
-          logger.info(
-            `User ${context.userId} earned achievement ${achievement.id}`
-          );
-        }
-      }
+      const executed = debugMode
+        ? true
+        : await achievement.execute(context);
+
+      if (!executed) continue;
+
+      await prisma.achievement.create({
+        data: {
+          userId: context.userId,
+          achievementId: achievement.id,
+        },
+      });
+      earnedAchievements.push(achievement.id);
+      logger.info(
+        `User ${context.userId} earned achievement ${achievement.id}`
+      );
     } catch (error) {
       logger.error(`Error processing achievement ${achievement.id}: ${error}`);
     }
