@@ -27,7 +27,7 @@ type ListItem = {
 
 export default function CheckinList(props: CheckinListProps) {
   const { checkins, context } = props;
-  const { categories, checkpoints } = context;
+  const { categories } = context;
 
   const categoryMap = useMemo(() => {
     const map: Record<string, Category> = {};
@@ -36,14 +36,6 @@ export default function CheckinList(props: CheckinListProps) {
     });
     return map;
   }, [categories]);
-
-  const checkpointMap = useMemo(() => {
-    const map: Record<string, Checkpoint> = {};
-    checkpoints.forEach((checkpoint) => {
-      map[checkpoint.id] = checkpoint;
-    });
-    return map;
-  }, [checkpoints]);
 
   const listItems = useMemo(() => {
     return checkins.map(({ id, createdAt, checkpoint }) => {
@@ -54,7 +46,6 @@ export default function CheckinList(props: CheckinListProps) {
         const category = categoryMap[checkpoint.categoryId];
         cooldownDuration = category ? category.cooldownDuration : 0;
       }
-      if (checkpointMap[checkpoint.id].cooldownDurationOverride !== null) {
       const cooldownEndTime = new Date(createdAt.getTime() + cooldownDuration * 60000);
       return {
         id: id,
