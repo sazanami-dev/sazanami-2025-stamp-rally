@@ -8,6 +8,9 @@ export const FoodMasterAchievement: AchievementStrategy = {
     const foodCheckpoints = context.allCheckpoints.filter(
       (checkpoint) => checkpoint.categoryId === FOOD_CATEGORY_ID
     );
+    if (foodCheckpoints.length === 0) {
+      return false;
+    }
     const userFoodCheckins = context.userCheckins.filter(
       (checkin) => checkin.checkpoint.categoryId === FOOD_CATEGORY_ID
     );

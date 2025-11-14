@@ -45,8 +45,7 @@ test("FoodMasterAchievement handles cases with no food checkpoints gracefully", 
     userCheckins: [],
   });
   const result = await FoodMasterAchievement.shouldExecute(context);
-  // with zero checkpoints, Math.ceil(0) => 0, so achievement should be considered obtained
-  assert.equal(result, true);
+  assert.equal(result, false);
 });
 
 test("FoodMasterAchievement rounds up required count correctly", async () => {
