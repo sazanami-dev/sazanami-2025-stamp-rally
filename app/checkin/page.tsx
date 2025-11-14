@@ -3,10 +3,11 @@ import CheckinWait from "@/components/checkin/wait";
 import CheckinError from "@/components/checkin/error";
 import CheckinComplete from "@/components/checkin/complete";
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { processCheckInWrapper } from "./actions";
 
 export default function CheckinPage() {
-  const searchParams = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '');
+  const searchParams = useSearchParams();
   const checkpointId = searchParams.get('ptid');
 
   const [activeState, setActiveState] = useState<'waiting' | 'complete' | 'error'>('waiting');
@@ -40,7 +41,7 @@ export default function CheckinPage() {
     <div className="flex flex-col items-center justify-center min-h-screen py-12 px-4 gap-6">
       {activeState === 'waiting' && <CheckinWait />}
       {activeState === 'error' && <CheckinError error={errorMessage} errorDetail={errorMessageDetail} />}
-      {activeState === 'complete' && <CheckinComplete achieved={achievedCheckpoints} />}
+      {activeState === 'complete' && <CheckinComplete achievedIds={achievedCheckpoints} />}
     </div>
   </>
 }

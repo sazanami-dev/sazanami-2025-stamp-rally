@@ -1,34 +1,26 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { PiSealWarningDuotone, PiChatCenteredTextDuotone, PiCodeDuotone } from "react-icons/pi";
+import { useSearchParams } from "next/navigation";
 
 export default function ErrorPage() {
-  // Get error info from URL params
-  const params = new URLSearchParams(window.location.search);
+  const searchParams = useSearchParams();
 
-  const [errorMessage, setErrorMessage] = useState<string | null>("不明なエラーが発生しました");
-  const [errorDetail, setErrorDetail] = useState<string | null>(null);
-  const [errorCode, setErrorCode] = useState<string | null>("PLACEHOLDER_ERR");
-
-  useEffect(() => {
-    if (!params.get("code")) {
-      setErrorCode("ERROR_DETAIL_NOT_PROVIDED");
-      setErrorMessage("不明なエラーが発生しました");
-      setErrorDetail("エラー情報は正しく提供されませんでした。");
-    } else {
-      setErrorCode(params.get("code"));
-      if (params.get("message")) {
-        setErrorMessage(params.get("message"));
-      } else {
-        setErrorMessage(null);
-      }
-      if (params.get("detail")) {
-        setErrorDetail(params.get("detail"));
-      } else {
-        setErrorDetail(null);
-      }
+  const { errorCode, errorMessage, errorDetail } = useMemo(() => {
+    const code = searchParams.get("code");
+    if (!code) {
+      return {
+        errorCode: "ERROR_DETAIL_NOT_PROVIDED",
+        errorMessage: "不明なエラーが発生しました",
+        errorDetail: "エラー情報は正しく提供されませんでした。",
+      };
     }
-  });
+    return {
+      errorCode: code,
+      errorMessage: searchParams.get("message"),
+      errorDetail: searchParams.get("detail"),
+    };
+  }, [searchParams]);
 
   return <>
     <div className="flex flex-col justify-center items-center min-h-screen p-4">
