@@ -1,8 +1,7 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchCategories, fetchUserAchievements, fetchUserCheckins } from "./actions";
 import CheckinList from "@/components/home/checkin-list/list";
-import AchievementCarouselItem from "@/components/home/achievement-carousel/item";
 import { AchievementCarousel } from "@/components/home/achievement-carousel/carousel";
 import AchievementDetailModal from "@/components/home/achievement-detail-modal";
 
