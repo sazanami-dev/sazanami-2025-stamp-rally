@@ -157,6 +157,13 @@ const achievementMetadataMap: Record<string, AchievementMetadata> = {
     icon: imgIconFactory("/achievements/melting_face_3d.png", "Melting Face"),
     bgClass: "bg-gradient-to-tr from-gray-400 to-gray-900",
   },
+  "hello-world": {
+    title: "ありぐにゃとごにゃいにゃす",
+    description: "はじめてのチェックイン!",
+    condition: "任意のチェックポイントに初めてチェックイン",
+    icon: imgIconFactory("/achievements/cat_3d.png", "Cat"),
+    bgClass: "bg-gradient-to-tr from-pink-100 to-pink-500",
+  }
 };
 
 function imgIconFactory(src: string, alt: string): JSX.Element {
