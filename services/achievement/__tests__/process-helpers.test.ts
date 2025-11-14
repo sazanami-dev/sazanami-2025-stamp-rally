@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { isDebugCheckpoint, shouldSkipAchievement } from "../../index";
+import { isDebugCheckpoint, shouldSkipAchievement } from "../index";
 import type { AchievementContext } from "../../types";
 import { createCheckin } from "./helpers";
 

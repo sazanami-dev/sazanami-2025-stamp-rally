@@ -1,3 +1,5 @@
+"use client";
+import React from "react";
 import { IconType } from "react-icons";
 import { IoFastFoodOutline, IoHammerOutline, IoHelpOutline, IoGolfOutline } from "react-icons/io5";
 
