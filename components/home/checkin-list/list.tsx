@@ -39,6 +39,7 @@ export default function CheckinList(props: CheckinListProps) {
   const listItems = useMemo(() => {
     return checkins.map(({ id, createdAt, checkpoint }) => {
       let cooldownDuration;
+      let message;
       if (checkpoint.cooldownDurationOverride) {
         cooldownDuration = checkpoint.cooldownDurationOverride;
       } else {
@@ -46,11 +47,14 @@ export default function CheckinList(props: CheckinListProps) {
         cooldownDuration = category ? category.cooldownDuration : 0;
       }
       const cooldownEndTime = new Date(createdAt.getTime() + cooldownDuration * 60000);
+      if (checkpoint.comment) {
+        message = checkpoint.comment;
+      }
       return {
         id: id,
         displayName: checkpoint.displayName,
         // positionDescription: checkpoint.positionDescription || undefined, 
-        // message: message || undefined,
+        message: message || undefined,
         checkinDate: createdAt,
         categoryId: checkpoint.categoryId,
         cooldownEndTime: cooldownEndTime,
@@ -74,7 +78,7 @@ export default function CheckinList(props: CheckinListProps) {
               <CheckinListItem
                 checkpointName={item.displayName}
                 // positionDescription={item.positionDescription}
-                // message={item.message}
+                message={item.message}
                 categoryId={item.categoryId}
                 checkinTime={item.checkinDate}
                 cooldownEndTime={item.cooldownEndTime}
