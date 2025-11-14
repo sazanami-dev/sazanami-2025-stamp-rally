@@ -15,16 +15,16 @@ export default function AchievementListItem(props: AchievementListItemProps) {
   }, [achievementId]);
 
   return <>
-    <Card className="w-full max-w-md hover:shadow-lg">
+    <Card className={`w-full max-w-md ${metadata ? metadata.bgClass : ""} hover:shadow-lg`}>
       <div className="flex flex-row items-center space-x-4 p-3">
-        <div className={`p-2 w-15 h-15 flex items-center justify-center rounded-full ${metadata ? metadata.bgClass : ""}`}>
+        <div className="p-2 w-15 h-15 flex items-center justify-center rounded-full">
           {metadata ? metadata.icon : null}
         </div>
         <div className="flex flex-col">
-          <div className="font-semibold text-lg">
+          <div className={`font-semibold text-lg ${metadata ? metadata.fgClass?.text : ""}`}>
             {metadata ? metadata.title : "Unknown Achievement"}
           </div>
-          <div className="text-sm text-gray-500">
+          <div className={`text-sm ${metadata ? metadata.fgClass?.text : "text-gray-500"}`}>
             {metadata ? metadata.description : "No description available."}
           </div>
         </div>
