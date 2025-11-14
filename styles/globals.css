@@ -1,6 +1,17 @@
 @import "tailwindcss";
 
 @config "../tailwind.config.js";
+
+:root {
+  font-size: 100%;
+}
+
+@media (max-width: 360px) {
+  :root {
+    font-size: 87.5%;
+  }
+}
+
 .embla {
   overflow: hidden;
 }
