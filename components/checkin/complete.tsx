@@ -32,9 +32,11 @@ export default function CheckinComplete(props: CheckinCompleteProps) {
             <div className="flex flex-col items-center justify-center w-full">
               <Divider className="w-[80%] my-4" />
               <p className="text-sm pb-4 text-gray-700">{achievedIds.length}件のアチーブメントを獲得しました</p>
-              {achievedIds.map((id) => (
-                <AchievementListItem achievementId={id} />
-              ))}
+              <div className="flex flex-col gap-2 w-full">
+                {achievedIds.map((id) => (
+                  <AchievementListItem achievementId={id} />
+                ))}
+              </div>
             </div>
           }
           <Button
