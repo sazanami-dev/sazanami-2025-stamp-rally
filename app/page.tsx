@@ -41,7 +41,7 @@ export default function Home() {
             <AchievementCarousel openAchievementModal={(id) => {
               openAchievementModal(id);
             }}
-              achievementIds={["hello-world", "debug_achievement", "placeholder", "floor-master-0", "floor-master-1", "floor-master-2", "floor-master-3", "floor-master-4", "floor-master-5", "floor-master-6", "floor-master-7", "continuous-checkin", "food-master", "rapid-checkin", "fallback"]} />
+              achievementIds={achievementIds} />
           </div>
           <CheckinList
             checkins={checkins}
