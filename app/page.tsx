@@ -35,10 +35,9 @@ export default function Home() {
 
   return (
     <>
-      <div className="w-full h-full flex items-center justify-center">
-        <div className="flex flex-col items-center justify-center h-full">
-          <div className="w-full max-w-3xl mb-8 fade-edges-x">
-            {/* <AchievementCarousel achievementIds={achievementIds} /> */}
+      <div className="w-full flex justify-center">
+        <div className="flex w-full max-w-4xl flex-col gap-6 items-stretch sm:items-center">
+          <div className="w-full sm:max-w-3xl sm:mx-auto">
             <AchievementCarousel openAchievementModal={(id) => {
               openAchievementModal(id);
             }}
