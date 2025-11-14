@@ -9,6 +9,7 @@ export default function Home() {
   const [checkins, setCheckins] = useState<Array<any>>([]);
 
   const [categories, setCategories] = useState<Array<any>>([]);
+  const [checkpoints, setCheckpoints] = useState<Array<any>>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const appendCheckins = async (page: number = 1) => {
