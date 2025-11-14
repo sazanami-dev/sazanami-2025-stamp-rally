@@ -1,6 +1,6 @@
 import AchievementCarouselItem from "./item";
 import useEmblaCarousel from "embla-carousel-react";
-import type { EmblaCarouselType } from "embla-carousel-react";
+// import type { EmblaCarouselType } from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import clsx from "clsx";
@@ -28,7 +28,7 @@ export function AchievementCarousel(props: AchievementCarouselProps) {
     }));
   }, [achievementIds]);
 
-  const updateEdgeState = useCallback((api: EmblaCarouselType) => {
+  const updateEdgeState = useCallback((api: any) => { // Workaround
     setIsAtStart(!api.canScrollPrev());
     setIsAtEnd(!api.canScrollNext());
   }, []);
