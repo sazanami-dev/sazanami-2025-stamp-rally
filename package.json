@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint --fix",
-    "test": "tsx --test \"services/achievement/__tests__/**/*.test.ts\"",
+    "test": "tsx tests/run-tests.ts",
     "container:dev:up": "docker compose -f docker-compose.dev.yml up -d",
     "container:dev:down": "docker compose -f docker-compose.dev.yml down",
     "db:generate": "prisma generate",

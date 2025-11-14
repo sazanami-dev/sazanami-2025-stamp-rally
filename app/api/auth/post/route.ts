@@ -12,21 +12,22 @@ import { ServerEnvKey, ServerEnvUtil } from "@/lib/serverEnv";
 const logger = new Logger("api", "auth", "post");
 
 export async function GET(request: NextRequest) {
-  const state = request.nextUrl.searchParams.get("state");
   const isPostAuth = request.nextUrl.searchParams.get("postAuth") === "true";
+  if (!isPostAuth) {
+    return NextResponse.next();
+  }
+
+  const state = request.nextUrl.searchParams.get("state");
   const redirectTo = request.nextUrl.searchParams.get("redirectTo");
   const baseUrl = ServerEnvUtil.get(ServerEnvKey.BASE_URL);
   let claims: TokenClaims | null = null;
   let waiting: Awaited<ReturnType<typeof resolveWaiting>>;
 
-  if (!isPostAuth) {
-    return NextResponse.next();
-  }
   if (!state) {
     const errorPageUrl = makeErrorPageUrlHelper(
       "MISSING_STATE",
       "不正なリクエストです",
-      "stateパラメータは必須です")
+      "stateパラメータは必須です");
     return NextResponse.redirect(errorPageUrl);
   }
 

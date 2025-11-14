@@ -35,11 +35,14 @@ export default function CheckinListItem(props: CheckinItemProps) {
   }
 
   useEffect(() => {
+    const startDate = new Date(checkinTime);
+    const cooldownEnd = new Date(cooldownEndTime);
+
     const updateState = () => {
       const now = new Date();
-      setIsCooldownOver(now >= cooldownEndTime);
-      if (now < cooldownEndTime) {
-        const diffMs = cooldownEndTime.getTime() - now.getTime();
+      setIsCooldownOver(now >= cooldownEnd);
+      if (now < cooldownEnd) {
+        const diffMs = cooldownEnd.getTime() - now.getTime();
         const diffMinutes = Math.floor(diffMs / 60000);
         const diffSeconds = Math.floor((diffMs % 60000) / 1000);
         setFormattedCooldownRemainingTime(`${diffMinutes}分${diffSeconds}秒`);
@@ -48,7 +51,7 @@ export default function CheckinListItem(props: CheckinItemProps) {
       }
     };
 
-    setFormattedCheckinTime(formatDate(checkinTime));
+    setFormattedCheckinTime(formatDate(startDate));
     updateState();
     const timer = setInterval(updateState, 1000);
 
