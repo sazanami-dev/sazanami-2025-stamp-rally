@@ -13,7 +13,7 @@ export default function Home() {
   const [categories, setCategories] = useState<Array<any>>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const [isAchievementModalOpen, setIsAchievementModalOpen] = useState<boolean>(true);
+  const [isAchievementModalOpen, setIsAchievementModalOpen] = useState<boolean>(false);
   const [selectedAchievementId, setSelectedAchievementId] = useState<string | undefined>(undefined);
 
   const appendCheckins = async (page: number = 1) => {
