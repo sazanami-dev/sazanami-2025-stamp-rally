@@ -18,27 +18,48 @@
 }
 
 /* 両端フェード用のカスタムクラス */
-.fade-edges-x {
+.edge-fade {
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  --fade-left-width: 0px;
+  --fade-right-width: 0px;
+  transition:
+    --fade-left-width 200ms ease,
+    --fade-right-width 200ms ease;
   -webkit-mask-image: linear-gradient(
     to right,
-    transparent 0%,
-    rgba(0,0,0,0.02) 10px, /* 薄くフェード開始 */
-    rgba(0,0,0,0.1) 20px,
-    black 60px,             /* 不透明になる位置を調整 */
-    black calc(100% - 60px),
-    rgba(0,0,0,0.1) calc(100% - 20px),
-    rgba(0,0,0,0.02) calc(100% - 10px),
+    transparent 0,
+    rgba(0, 0, 0, 1) var(--fade-left-width),
+    rgba(0, 0, 0, 1) calc(100% - var(--fade-right-width)),
     transparent 100%
   );
   mask-image: linear-gradient(
     to right,
-    transparent 0%,
-    rgba(0,0,0,0.02) 10px,
-    rgba(0,0,0,0.1) 20px,
-    black 60px,
-    black calc(100% - 60px),
-    rgba(0,0,0,0.1) calc(100% - 20px),
-    rgba(0,0,0,0.02) calc(100% - 10px),
+    transparent 0,
+    rgba(0, 0, 0, 1) var(--fade-left-width),
+    rgba(0, 0, 0, 1) calc(100% - var(--fade-right-width)),
     transparent 100%
   );
+}
+
+.edge-fade--both {
+  --fade-left-width: 80px;
+  --fade-right-width: 80px;
+}
+
+.edge-fade--left {
+  --fade-left-width: 80px;
+  --fade-right-width: 0px;
+}
+
+.edge-fade--right {
+  --fade-left-width: 0px;
+  --fade-right-width: 80px;
+}
+
+.edge-fade--none {
+  --fade-left-width: 0px;
+  --fade-right-width: 0px;
 }
