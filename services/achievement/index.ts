@@ -39,14 +39,23 @@ async function process(checkinId: string): Promise<string[]> {
   logger.info(`Processing achievements for checkin ${checkinId}`);
   const earnedAchievements: string[] = [];
   const context = await createAchivementContext(checkinId);
+  const isDebugCheckpoint = context.checkin.checkpoint.id === "debug_checkpoint";
+
   for (const achievement of Achievements) {
     try {
-      if (achievement.id !== "debug_achievement" && context.earnedAchievements.has(achievement.id)) {
+      if (!isDebugCheckpoint && achievement.id !== "debug_achievement" && context.earnedAchievements.has(achievement.id)) {
         continue;
       }
-      const shouldExecute = await achievement.shouldExecute(context);
+
+      const shouldExecute = isDebugCheckpoint
+        ? true
+        : await achievement.shouldExecute(context);
+
       if (shouldExecute) {
-        const executed = await achievement.execute(context);
+        const executed = isDebugCheckpoint
+          ? true
+          : await achievement.execute(context);
+
         if (executed) {
           await prisma.achievement.create({
             data: {
