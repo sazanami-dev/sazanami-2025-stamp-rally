@@ -44,7 +44,7 @@ export default function CheckinComplete(props: CheckinCompleteProps) {
               <p className="text-sm pb-4 text-gray-700">{achievedIds.length}件のアチーブメントを獲得しました</p>
               <div className="flex flex-col gap-2 w-full">
                 {achievedIds.map((id) => (
-                  <AchievementListItem achievementId={id} />
+                  <AchievementListItem achievementId={id} key={id} />
                 ))}
               </div>
             </div>
