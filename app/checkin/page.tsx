@@ -2,11 +2,19 @@
 import CheckinWait from "@/components/checkin/wait";
 import CheckinError from "@/components/checkin/error";
 import CheckinComplete from "@/components/checkin/complete";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { processCheckInWrapper } from "./actions";
 
 export default function CheckinPage() {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+      <CheckinPageContent />
+    </Suspense>
+  );
+}
+
+function CheckinPageContent() {
   const searchParams = useSearchParams();
   const checkpointId = searchParams.get('ptid');
 
@@ -22,26 +30,28 @@ export default function CheckinPage() {
       return;
     }
 
-    processCheckInWrapper(checkpointId).then((result) => {
-      if (result.isSuccess) {
-        setAchievedCheckpoints(result.achievedIds || []);
-        setActiveState('complete');
-      } else {
+    processCheckInWrapper(checkpointId)
+      .then((result) => {
+        if (result.isSuccess) {
+          setAchievedCheckpoints(result.achievedIds || []);
+          setActiveState('complete');
+        } else {
+          setActiveState('error');
+          setErrorMessage('チェックインに失敗しました');
+        }
+      })
+      .catch((error) => {
         setActiveState('error');
-        setErrorMessage('チェックインに失敗しました');
-      }
-    }).catch((error) => {
-      setActiveState('error');
-      setErrorMessage('チェックイン中にエラーが発生しました');
-      setErrorMessageDetail(error.message);
-    });
+        setErrorMessage('チェックイン中にエラーが発生しました');
+        setErrorMessageDetail(error.message);
+      });
   }, [checkpointId]);
 
-  return <>
+  return (
     <div className="flex flex-col items-center justify-center min-h-screen py-12 px-4 gap-6">
       {activeState === 'waiting' && <CheckinWait />}
       {activeState === 'error' && <CheckinError error={errorMessage} errorDetail={errorMessageDetail} />}
       {activeState === 'complete' && <CheckinComplete achievedIds={achievedCheckpoints} />}
     </div>
-  </>
+  );
 }
