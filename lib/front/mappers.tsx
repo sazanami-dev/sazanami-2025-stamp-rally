@@ -130,9 +130,33 @@ const achievementMetadataMap: Record<string, AchievementMetadata> = {
     title: "スルメ",
     description: "(´･ ～ ･`)",
     condition: "同じチェックポイントに連続してチェックイン",
-    icon: imgIconFactory("/achievements/shrimp_3d.png", "Red Shrimp"),
-    bgClass: "bg-gradient-to-tr from-yellow-200 to-red-500",
-  }
+    icon: imgIconFactory("/achievements/squid_3d.png", "Squid"),
+    bgClass: "bg-gradient-to-br from-blue-200 to-blue-700",
+  },
+  "food-master": {
+    title: "グルメマスター",
+    description: "TODO:いい感じのテキスト",
+    condition: "飲食カテゴリーのチェックポイントに一定数以上チェックイン",
+    icon: imgIconFactory("/achievements/cupcake_3d.png", "Food Master"),
+    bgClass: "bg-gradient-to-tr from-red-200 to-pink-600",
+    fgClass: {
+      text: "text-gray-800",
+    },
+  },
+  "rapid-checkin": {
+    title: "気分屋さん",
+    description: "そういうときもある",
+    condition: "前回のチェックインから3分以内にチェックイン",
+    icon: imgIconFactory("/achievements/sparkles_3d.png", "Sparkles"),
+    bgClass: "bg-gradient-to-tr from-purple-200 to-purple-700",
+  },
+  "fallback": {
+    title: "フォールバック",
+    condition: "何らかの理由で実績情報が取得できなかった場合に表示されます",
+    description: "このメッセージが 見れるのは おかしいよ",
+    icon: imgIconFactory("/achievements/melting_face_3d.png", "Melting Face"),
+    bgClass: "bg-gradient-to-tr from-gray-400 to-gray-900",
+  },
 };
 
 function imgIconFactory(src: string, alt: string): JSX.Element {
