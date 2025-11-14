@@ -10,6 +10,7 @@ type CheckinListProps = {
   checkins: (Checkin & { checkpoint: Checkpoint })[];
   context: {
     categories: Category[];
+    checkpoints: Checkpoint[];
   },
   loadMoreCallback: () => void;
 }
