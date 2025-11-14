@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { resolveWaiting } from "@/services/auth/waiting";
+import { resolveWaiting, WaitingEntryExpiredError, WaitingEntryNotFoundError } from "@/services/auth/waiting";
 import { decodeToken } from "@/services/auth/token";
 import { makeErrorPageUrlHelper } from '@/lib/makeErrorPageUrlHelper';
 import Logger from "@/lib/logger";
@@ -12,12 +12,12 @@ import { ServerEnvKey, ServerEnvUtil } from "@/lib/serverEnv";
 const logger = new Logger("api", "auth", "post");
 
 export async function GET(request: NextRequest) {
-  const state = request.nextUrl.searchParams.get("state")!;
+  const state = request.nextUrl.searchParams.get("state");
   const isPostAuth = request.nextUrl.searchParams.get("postAuth") === "true";
   const redirectTo = request.nextUrl.searchParams.get("redirectTo");
   const baseUrl = ServerEnvUtil.get(ServerEnvKey.BASE_URL);
-  const waiting = await resolveWaiting(state);
   let claims: TokenClaims | null = null;
+  let waiting: Awaited<ReturnType<typeof resolveWaiting>>;
 
   if (!isPostAuth) {
     return NextResponse.next();
@@ -27,6 +27,23 @@ export async function GET(request: NextRequest) {
       "MISSING_STATE",
       "不正なリクエストです",
       "stateパラメータは必須です")
+    return NextResponse.redirect(errorPageUrl);
+  }
+
+  try {
+    waiting = await resolveWaiting(state);
+  } catch (error) {
+    logger.error(`Failed to resolve waiting entry for state ${state}: ${(error as Error).message}`);
+    const code =
+      error instanceof WaitingEntryExpiredError
+        ? "WAITING_ENTRY_EXPIRED"
+        : error instanceof WaitingEntryNotFoundError
+          ? "WAITING_ENTRY_NOT_FOUND"
+          : "WAITING_RESOLVE_FAILED";
+    const errorPageUrl = makeErrorPageUrlHelper(
+      code,
+      "認証セッションが見つかりません",
+      "再度ログインをやり直してください。");
     return NextResponse.redirect(errorPageUrl);
   }
 
