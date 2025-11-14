@@ -1,9 +1,17 @@
 "use client";
-import { useMemo } from "react";
+import { Suspense, useMemo } from "react";
 import { PiSealWarningDuotone, PiChatCenteredTextDuotone, PiCodeDuotone } from "react-icons/pi";
 import { useSearchParams } from "next/navigation";
 
 export default function FatalPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <FatalPageContent />
+    </Suspense>
+  );
+}
+
+function FatalPageContent() {
   const searchParams = useSearchParams();
 
   const { errorCode, errorMessage, errorDetail } = useMemo(() => {
@@ -49,5 +57,5 @@ export default function FatalPage() {
         </div>
       </div>
     </div>
-  </>
+  </>;
 }
