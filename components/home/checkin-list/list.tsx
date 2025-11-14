@@ -10,9 +10,10 @@ type CheckinListProps = {
   checkins: (Checkin & { checkpoint: Checkpoint })[];
   context: {
     categories: Category[];
-  },
+  };
+  hasMore: boolean;
   loadMoreCallback: () => void;
-}
+};
 
 type ListItem = {
   id: string;
@@ -89,13 +90,15 @@ export default function CheckinList(props: CheckinListProps) {
       </div>
 
       {/* ページネーション とりあえずLoad moreボタン */}
-      <Button
-        className="w-full max-w-md mx-auto my-4"
-        variant="light"
-        onPress={() => {
-          props.loadMoreCallback();
-        }}
-      >もっと読み込む</Button>
+      {props.hasMore && (
+        <Button
+          className="w-full max-w-md mx-auto my-4"
+          variant="light"
+          onPress={() => {
+            props.loadMoreCallback();
+          }}
+        >もっと読み込む</Button>
+      )}
 
     </LayoutGroup>
 
