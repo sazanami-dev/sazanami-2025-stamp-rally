@@ -29,7 +29,3 @@ export async function fetchUserAchievements() {
   const achievements = await getUserAchievements(userInfo.uid);
   return achievements;
 }
-
-export async function fetchCheckpoints() {
-  const checkpoints = await getAllCheckpoints();
-}
