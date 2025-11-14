@@ -29,8 +29,8 @@ export default function Home() {
       <div className="w-full h-full flex items-center justify-center">
         <div className="flex flex-col items-center justify-center h-full">
           <div className="w-full max-w-3xl mb-8 fade-edges-x">
-            {/* <AchievementCarousel achievementIds={["debug_achievement", "debug_achievement", "debug_achievement", "debug_achievement", "debug_achievement", "debug_achievement", "debug_achievement"]} /> */}
-            <AchievementCarousel achievementIds={achievementIds} />
+            {/* <AchievementCarousel achievementIds={achievementIds} /> */}
+            <AchievementCarousel achievementIds={["debug_achievement", "placeholder", "floor-master-0", "floor-master-1", "floor-master-2", "floor-master-3", "floor-master-4", "floor-master-5", "floor-master-6", "floor-master-7", "continuous-checkin", "food-master", "rapid-checkin", "fallback"]} />
           </div>
           <CheckinList
             checkins={checkins}
