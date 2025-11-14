@@ -216,5 +216,5 @@ function imgIconFactory(src: string, alt: string): JSX.Element {
 }
 
 export function getAchivementMetadata(achievementId: string) {
-  return achievementMetadataMap[achievementId];
+  return achievementMetadataMap[achievementId] ?? achievementMetadataMap["fallback"];
 }
