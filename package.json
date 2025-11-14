@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint --fix",
+    "test": "tsx --test services/achievement/__tests__/*.test.ts",
     "container:dev:up": "docker compose -f docker-compose.dev.yml up -d",
     "container:dev:down": "docker compose -f docker-compose.dev.yml down",
     "db:generate": "prisma generate",
@@ -77,6 +78,7 @@
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-icons": "^5.5.0",
+    "server-only": "^0.0.1",
     "tsx": "^4.20.6",
     "zod": "^4.1.12"
   },
