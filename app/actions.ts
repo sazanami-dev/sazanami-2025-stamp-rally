@@ -11,8 +11,7 @@ export async function fetchUserCheckins(page: number) {
     throw new Error('Unauthorized access: invalid or missing token');
   }
   const pageSize = 20; // 1ページあたりのアイテム数
-  const checkinData = await getUserCheckinsIncludeCheckpointWithPagination(userInfo.uid, page, pageSize);
-  return checkinData;
+  return getUserCheckinsIncludeCheckpointWithPagination(userInfo.uid, page, pageSize);
 }
 
 export async function fetchCategories() {
