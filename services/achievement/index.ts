@@ -13,6 +13,12 @@ async function createAchivementContext(checkinId: string) {
     throw new Error(`Checkin with id ${checkinId} not found`);
   }
   const allCheckpoints = await prisma.checkpoint.findMany();
+  const allCategories = await prisma.category.findMany();
+  const userCheckins = await prisma.checkin.findMany({
+    where: { userId: checkin.userId },
+    include: { checkpoint: true },
+    orderBy: { createdAt: "desc" },
+  });
   const earnedAchievementRecords = await prisma.achievement.findMany({
     where: { userId: checkin.userId },
   });
@@ -24,6 +30,8 @@ async function createAchivementContext(checkinId: string) {
     checkin,
     earnedAchievements,
     allCheckpoints,
+    allCategories,
+    userCheckins
   };
 }
 

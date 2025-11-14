@@ -1,4 +1,4 @@
-import { Checkpoint, Checkin } from "@prisma/client";
+import { Checkpoint, Checkin, Category } from "@prisma/client";
 
 export type CheckinWithCheckpoint = Checkin & {
   checkpoint: Checkpoint;
@@ -9,6 +9,8 @@ export interface AchievementContext {
   checkin: CheckinWithCheckpoint;
   earnedAchievements: Set<string>;
   allCheckpoints: Checkpoint[];
+  allCategories: Category[];
+  userCheckins: CheckinWithCheckpoint[];
 }
 
 export interface AchievementStrategy {
