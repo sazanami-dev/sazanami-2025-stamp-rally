@@ -1,9 +1,10 @@
 "use client";
 
 import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card"
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FaClock } from "react-icons/fa"
-import { getCategoryIcon } from "@/lib/front/mappers";
+// import { getCategoryIcon } from "@/lib/front/mappers";
+import { getCategoryMetadata } from "@/lib/front/mappers";
 
 type CheckinItemProps = {
   checkpointName: string;
@@ -15,10 +16,14 @@ type CheckinItemProps = {
 }
 
 export default function CheckinListItem(props: CheckinItemProps) {
-  const { checkpointName, positionDescription, message, checkinTime, cooldownEndTime } = props;
+  const { checkpointName, positionDescription, message, checkinTime, cooldownEndTime, categoryId } = props;
   const [isCooldownOver, setIsCooldownOver] = useState<boolean>(false);
   const [formattedCheckinTime, setFormattedCheckinTime] = useState<string>("");
   const [formattedCooldownRemainingTime, setFormattedCooldownRemainingTime] = useState<string>("");
+
+  const categoryMetadata = useMemo(() => {
+    return getCategoryMetadata(categoryId || "fallback");
+  }, [categoryId]);
 
   // 時間だけ取り出せばOK
   const formatDate = (date: Date) => {
@@ -52,17 +57,15 @@ export default function CheckinListItem(props: CheckinItemProps) {
     };
   }, [checkinTime, cooldownEndTime]);
 
-
   return <>
     <Card shadow="sm" className="w-full max-w-md mx-auto">
-      <CardHeader className="flex gap-3 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-t-lg">
+      <CardHeader className={`flex gap-3 py-2 ${categoryMetadata.bgClass} rounded-t-lg`}>
         <div className="flex flex-col">
-          <span className="font-semibold text-xl">{checkpointName}</span>
-          <span className="text-sm opacity-80">{positionDescription}</span>
+          <span className={`font-semibold text-xl ${categoryMetadata.fgClass?.text || "text-white"}`}>{checkpointName}</span>
+          <span className={`text-sm ${categoryMetadata.fgClass?.text || "text-white"} opacity-80`}>{positionDescription}</span>
         </div>
         <div className="ml-auto mr-2 flex items-center">
-          {/* <FaClock className="text-4xl mt-4 mb-4" /> */}
-          {getCategoryIcon(props.categoryId || "fallback")({ className: "text-4xl mt-4 mb-4" })}
+          {categoryMetadata.icon({ className: `text-4xl mt-4 mb-4 ${categoryMetadata.fgClass?.icon || "text-white"}` })}
         </div>
       </CardHeader>
       {message &&
