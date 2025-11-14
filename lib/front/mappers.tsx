@@ -1,16 +1,57 @@
+import { IconType } from "react-icons";
 import { IoFastFoodOutline, IoHammerOutline, IoHelpOutline, IoGolfOutline } from "react-icons/io5";
 
-export function getCategoryIcon(categoryId: string) {
-  switch (categoryId) {
-    case "food":
-      return IoFastFoodOutline;
-    case "debug":
-      return IoHammerOutline;
-    case "challenge":
-      return IoGolfOutline;
-    default:
-      return IoHelpOutline;
+// export function getCategoryIcon(categoryId: string) {
+//   switch (categoryId) {
+//     case "food":
+//       return IoFastFoodOutline;
+//     case "debug":
+//       return IoHammerOutline;
+//     case "challenge":
+//       return IoGolfOutline;
+//     default:
+//       return IoHelpOutline;
+//   }
+// }
+
+type CategoryMetadata = {
+  icon: IconType;
+  bgClass: string;
+  fgClass?: {
+    text?: string;
+    icon?: string;
   }
+};
+
+const categoryMetadataMap: Record<string, CategoryMetadata> = {
+  "battle_on_game_booth": {
+    icon: IoHelpOutline, // TODO: アイコンを入れ替える
+    bgClass: "bg-gradient-to-tr from-green-200 to-green-600",
+  },
+  "normal_booth": {
+    icon: IoHelpOutline, // TODO: アイコンを入れ替える
+    bgClass: "bg-gradient-to-tr from-blue-200 to-blue-600",
+  },
+  "amusement_booth": {
+    icon: IoHelpOutline, // TODO: アイコンを入れ替える
+    bgClass: "bg-gradient-to-tr from-yellow-200 to-yellow-600",
+  },
+  "shopping_booth": {
+    icon: IoHelpOutline, // TODO: アイコンを入れ替える
+    bgClass: "bg-gradient-to-tr from-purple-200 to-purple-600",
+  },
+  "food_booth": {
+    icon: IoHelpOutline, // TODO: アイコンを入れ替える
+    bgClass: "bg-gradient-to-tr from-red-200 to-pink-600",
+  },
+  "sazanami_booth": {
+    icon: IoHelpOutline, // TODO: アイコンを入れ替える
+    bgClass: "bg-gradient-to-tr from-gray-200 to-gray-600",
+  },
+};
+
+export function getCategoryMetadata(categoryId: string) {
+  return categoryMetadataMap[categoryId];
 }
 
 type AchievementMetadata = {
