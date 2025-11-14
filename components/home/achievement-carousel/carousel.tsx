@@ -5,10 +5,11 @@ import { useMemo } from "react";
 
 type AchievementCarouselProps = {
   achievementIds: string[];
+  openAchievementModal: (achievementId: string) => void;
 }
 
 export function AchievementCarousel(props: AchievementCarouselProps) {
-  const { achievementIds } = props;
+  const { achievementIds, openAchievementModal } = props;
   const [emblaRef] = useEmblaCarousel({
     loop: false,
     align: "center",
@@ -23,6 +24,10 @@ export function AchievementCarousel(props: AchievementCarouselProps) {
     }));
   }, [achievementIds]);
 
+  const handleItemClick = (achievementId: string) => {
+    openAchievementModal(achievementId);
+  }
+
   return <>
     <div className="overflow-hidden embla" ref={emblaRef}>
       <div className="flex pb-4 embla__container">
@@ -31,7 +36,7 @@ export function AchievementCarousel(props: AchievementCarouselProps) {
             className="flex-shrink-0"
             key={item.key}
           >
-            <AchievementCarouselItem achievementId={item.achievementId} />
+            <AchievementCarouselItem achievementId={item.achievementId} onClick={handleItemClick} />
           </div>
         ))}
       </div>
