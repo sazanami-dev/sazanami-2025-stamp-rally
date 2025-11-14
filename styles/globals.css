@@ -17,6 +17,18 @@
   margin: 0 10px;
 }
 
+@property --fade-left-width {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --fade-right-width {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
 /* 両端フェード用のカスタムクラス */
 .edge-fade {
   -webkit-mask-size: 100% 100%;
