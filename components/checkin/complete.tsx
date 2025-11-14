@@ -6,6 +6,7 @@ import { TbCheck } from "react-icons/tb";
 import { useRouter } from "next/navigation";
 import AchievementListItem from "./achievement-list-item";
 import { useEffect } from "react";
+import { useReward } from "react-rewards";
 
 type CheckinCompleteProps = {
   achievedIds: string[];
@@ -21,6 +22,15 @@ export default function CheckinComplete(props: CheckinCompleteProps) {
       achievedIds = [];
     }
   }, [achievedIds]);
+  const { reward, isAnimating } = useReward('rewardId', 'confetti', {
+    position: "absolute",
+  });
+
+  useEffect(() => {
+    if (!isAnimating) {
+      reward();
+    }
+  }, [isAnimating])
 
   return <>
     <Card className="w-[90%] max-w-[24em]">
@@ -49,5 +59,6 @@ export default function CheckinComplete(props: CheckinCompleteProps) {
         </div>
       </CardBody>
     </Card>
+    <div id="rewardId" className="left-[50%]"></div>
   </>
 }
