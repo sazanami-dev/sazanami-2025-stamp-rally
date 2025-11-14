@@ -86,3 +86,16 @@
   --fade-left-width: 0px;
   --fade-right-width: 0px;
 }
+
+@media (max-width: 480px) {
+  .edge-fade--both {
+    --fade-left-width: 40px;
+    --fade-right-width: 40px;
+  }
+  .edge-fade--left {
+    --fade-left-width: 40px;
+  }
+  .edge-fade--right {
+    --fade-right-width: 40px;
+  }
+}
