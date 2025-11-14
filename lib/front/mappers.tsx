@@ -46,7 +46,11 @@ const categoryMetadataMap: Record<string, CategoryMetadata> = {
 };
 
 export function getCategoryMetadata(categoryId: string) {
-  return categoryMetadataMap[categoryId];
+  let metadata = categoryMetadataMap[categoryId];
+  if (!metadata) {
+    metadata = categoryMetadataMap["fallback"];
+  }
+  return metadata;
 }
 
 type AchievementMetadata = {
