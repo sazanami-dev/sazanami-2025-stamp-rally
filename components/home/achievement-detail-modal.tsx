@@ -23,7 +23,7 @@ export default function AchievementDetailModal(props: AchievementDetailModalProp
               {metadata ? metadata.icon : null}
             </div>
             <div className="flex flex-col justify-center ml-4">
-              <h2 className="text-2xl">{metadata ? metadata.title : "Achievement"}</h2>
+              <h2 className="text-xl">{metadata ? metadata.title : "Achievement"}</h2>
               <p className="text-sm text-gray-500">{metadata ? metadata.description : ""}</p>
             </div>
           </div>
