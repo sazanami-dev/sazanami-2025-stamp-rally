@@ -4,7 +4,7 @@ import { decodeToken } from './services/auth/token'
 import { ServerEnvKey, ServerEnvUtil } from './lib/serverEnv'
 
 export async function middleware(request: NextRequest) {
-  const baseUrl = new URL(ServerEnvUtil.get(ServerEnvKey.BASE_URL))
+  const baseUrlString = ServerEnvUtil.get(ServerEnvKey.BASE_URL)
 
   // Bypass auth (for debug use only)
   if (request.nextUrl.searchParams.get('bypassAuth') === 'true') {
@@ -12,9 +12,8 @@ export async function middleware(request: NextRequest) {
   }
 
   if (request.nextUrl.searchParams.get('postAuth') === 'true') {
-    const postProcessUrl = new URL(baseUrl.toString())
-    const nextUrl = new URL(baseUrl.toString())
-    nextUrl.pathname = request.nextUrl.pathname
+    const postProcessUrl = new URL(baseUrlString)
+    const nextUrl = new URL(request.nextUrl.toString())
     postProcessUrl.pathname = '/api/auth/post'
     postProcessUrl.searchParams.set('state', request.nextUrl.searchParams.get('state') || '')
     postProcessUrl.searchParams.set('postAuth', 'true')
@@ -40,12 +39,11 @@ export async function middleware(request: NextRequest) {
   }
 
   if (!isValidToken) {
-    // return NextResponse.rewrite(baseUrl.pathname = '/api/auth/prepare') // こっちのほうがUXはいいっぽいけど
-    const nextUrl = new URL(baseUrl.toString())
-    nextUrl.pathname = request.nextUrl.pathname
-    baseUrl.pathname = '/api/auth/prepare'
-    baseUrl.searchParams.set('redirectTo', nextUrl.toString())
-    return NextResponse.redirect(baseUrl.toString())
+    const prepareUrl = new URL(baseUrlString)
+    prepareUrl.pathname = '/api/auth/prepare'
+    const nextUrl = new URL(request.nextUrl.toString())
+    prepareUrl.searchParams.set('redirectTo', nextUrl.toString())
+    return NextResponse.redirect(prepareUrl.toString())
   }
   return NextResponse.next()
 }
