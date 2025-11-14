@@ -1,12 +1,13 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
-import { fetchCategories, fetchUserCheckins } from "./actions";
+import { fetchCategories, fetchUserAchievements, fetchUserCheckins } from "./actions";
 import CheckinList from "@/components/home/checkin-list/list";
 import AchievementCarouselItem from "@/components/home/achievement-carousel/item";
 import { AchievementCarousel } from "@/components/home/achievement-carousel/carousel";
 
 export default function Home() {
   const [checkins, setCheckins] = useState<Array<any>>([]);
+  const [achievementIds, setAchievementIds] = useState<Array<string>>([]);
 
   const [categories, setCategories] = useState<Array<any>>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -20,6 +21,7 @@ export default function Home() {
   useEffect(() => {
     appendCheckins();
     fetchCategories().then((cats) => setCategories(cats));
+    fetchUserAchievements().then((achs) => setAchievementIds(achs));
   }, []);
 
   return (
@@ -27,7 +29,8 @@ export default function Home() {
       <div className="w-full h-full flex items-center justify-center">
         <div className="flex flex-col items-center justify-center h-full">
           <div className="w-full max-w-3xl mb-8 fade-edges-x">
-            <AchievementCarousel achievementIds={["debug_achievement", "debug_achievement", "debug_achievement", "debug_achievement", "debug_achievement", "debug_achievement", "debug_achievement"]} />
+            {/* <AchievementCarousel achievementIds={["debug_achievement", "debug_achievement", "debug_achievement", "debug_achievement", "debug_achievement", "debug_achievement", "debug_achievement"]} /> */}
+            <AchievementCarousel achievementIds={achievementIds} />
           </div>
           <CheckinList
             checkins={checkins}
