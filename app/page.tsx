@@ -5,6 +5,7 @@ import CheckinList from "@/components/home/checkin-list/list";
 import AchievementCarouselItem from "@/components/home/achievement-carousel/item";
 import { AchievementCarousel } from "@/components/home/achievement-carousel/carousel";
 import AchievementDetailModal from "@/components/home/achievement-detail-modal";
+import { useReward } from "react-rewards";
 
 export default function Home() {
   const [checkins, setCheckins] = useState<Array<any>>([]);
@@ -33,6 +34,16 @@ export default function Home() {
     setIsAchievementModalOpen(true);
   }
 
+  const { reward, isAnimating } = useReward('rewardId', 'confetti', {
+    position: "absolute",
+  });
+
+  useEffect(() => {
+    if (!isAnimating) {
+      reward();
+    }
+  }, [isAnimating])
+
   return (
     <>
       <div className="w-full flex justify-center">
@@ -59,6 +70,7 @@ export default function Home() {
         achievementId={selectedAchievementId}
         onClose={() => setIsAchievementModalOpen(false)}
       />
+      <div id="rewardId" className="left-[50%]"></div>
     </>
   );
 }
