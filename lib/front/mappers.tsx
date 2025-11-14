@@ -48,6 +48,14 @@ const categoryMetadataMap: Record<string, CategoryMetadata> = {
     icon: IoHelpOutline, // TODO: アイコンを入れ替える
     bgClass: "bg-gradient-to-tr from-gray-200 to-gray-600",
   },
+  "fallback": {
+    icon: IoHelpOutline,
+    bgClass: "bg-gradient-to-tr from-gray-400 to-gray-900",
+    fgClass: {
+      text: "text-white",
+      icon: "text-white",
+    },
+  },
 };
 
 export function getCategoryMetadata(categoryId: string) {
