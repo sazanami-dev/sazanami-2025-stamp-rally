@@ -11,14 +11,16 @@ export default function Home() {
 
   const [categories, setCategories] = useState<Array<any>>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1);
 
   const [isAchievementModalOpen, setIsAchievementModalOpen] = useState<boolean>(false);
   const [selectedAchievementId, setSelectedAchievementId] = useState<string | undefined>(undefined);
 
   const appendCheckins = async (page: number = 1) => {
     if (page <= 1) setCheckins([]);
-    const newCheckin = await fetchUserCheckins(page);
-    setCheckins((prevCheckins) => [...prevCheckins, ...newCheckin.checkins]);
+    const { checkins: newItems, totalPages } = await fetchUserCheckins(page);
+    setTotalPages(totalPages);
+    setCheckins((prevCheckins) => [...prevCheckins, ...newItems]);
   };
 
   useEffect(() => {
@@ -45,6 +47,7 @@ export default function Home() {
           <CheckinList
             checkins={checkins}
             context={{ categories }}
+            hasMore={currentPage < totalPages}
             loadMoreCallback={() => {
               const nextPage = currentPage + 1;
               setCurrentPage(nextPage);
