@@ -145,7 +145,10 @@ export async function GET(request: NextRequest) {
   redirectUrl.searchParams.delete("postAuth");
   redirectUrl.searchParams.delete("state");
   redirectUrl.searchParams.delete("redirectTo");
-  const response = NextResponse.redirect(redirectUrl.toString());
+  const newUrl = new URL(baseUrl);
+  newUrl.pathname = redirectUrl.pathname;
+  newUrl.search = redirectUrl.search;
+  const response = NextResponse.redirect(newUrl.toString());
   const expires = new Date(claims.exp * 1000); // JWTのexpクレームを使用して有効期限を設定
   response.cookies.set({
     name: "token",
