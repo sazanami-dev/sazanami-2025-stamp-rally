@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { IconType } from "react-icons";
-import { IoGameControllerOutline, IoFastFoodOutline, IoHammerOutline, IoHelpOutline, IoGolfOutline, IoGiftOutline, IoPricetagOutline, IoRocketOutline } from "react-icons/io5";
+import { IoGameControllerOutline, IoFastFoodOutline, IoHelpOutline, IoPricetagOutline, IoRocketOutline, IoGiftOutline } from "react-icons/io5";
 
 type CategoryMetadata = {
   icon: IconType;
@@ -77,7 +77,7 @@ const achievementMetadataMap: Record<string, AchievementMetadata> = {
   "floor-master-0": {
     title: "0階マスター",
     description: "TODO:いい感じのテキスト",
-    condition: "0階のチェックポイントの8割以上にチェックイン",
+    condition: "0階のチェックポイントの6割以上にチェックイン",
     icon: imgIconFactory("/achievements/keycap_0_3d.png", "Keycap 0"),
     bgClass: "bg-gradient-to-tr from-yellow-200 to-red-500",
     fgClass: {
@@ -87,7 +87,7 @@ const achievementMetadataMap: Record<string, AchievementMetadata> = {
   "floor-master-1": {
     title: "1階マスター",
     description: "TODO:いい感じのテキスト",
-    condition: "1階のチェックポイントの8割以上にチェックイン",
+    condition: "1階のチェックポイントの6割以上にチェックイン",
     icon: imgIconFactory("/achievements/keycap_1_3d.png", "Keycap 1"),
     bgClass: "bg-gradient-to-tr from-yellow-200 to-red-500",
     fgClass: {
@@ -97,7 +97,7 @@ const achievementMetadataMap: Record<string, AchievementMetadata> = {
   "floor-master-2": {
     title: "2階マスター",
     description: "TODO:いい感じのテキスト",
-    condition: "2階のチェックポイントの8割以上にチェックイン",
+    condition: "2階のチェックポイントの6割以上にチェックイン",
     icon: imgIconFactory("/achievements/keycap_2_3d.png", "Keycap 2"),
     bgClass: "bg-gradient-to-tr from-yellow-200 to-red-500",
     fgClass: {
@@ -107,7 +107,7 @@ const achievementMetadataMap: Record<string, AchievementMetadata> = {
   "floor-master-3": {
     title: "3階マスター",
     description: "TODO:いい感じのテキスト",
-    condition: "3階のチェックポイントの8割以上にチェックイン",
+    condition: "3階のチェックポイントの6割以上にチェックイン",
     icon: imgIconFactory("/achievements/keycap_3_3d.png", "Keycap 3"),
     bgClass: "bg-gradient-to-tr from-yellow-200 to-red-500",
     fgClass: {
@@ -117,7 +117,7 @@ const achievementMetadataMap: Record<string, AchievementMetadata> = {
   "floor-master-4": {
     title: "4階マスター",
     description: "TODO:いい感じのテキスト",
-    condition: "4階のチェックポイントの8割以上にチェックイン",
+    condition: "4階のチェックポイントの6割以上にチェックイン",
     icon: imgIconFactory("/achievements/keycap_4_3d.png", "Keycap 4"),
     bgClass: "bg-gradient-to-tr from-yellow-200 to-red-500",
     fgClass: {
@@ -127,7 +127,7 @@ const achievementMetadataMap: Record<string, AchievementMetadata> = {
   "floor-master-5": {
     title: "5階マスター",
     description: "TODO:いい感じのテキスト",
-    condition: "5階のチェックポイントの8割以上にチェックイン",
+    condition: "5階のチェックポイントの6割以上にチェックイン",
     icon: imgIconFactory("/achievements/keycap_5_3d.png", "Keycap 5"),
     bgClass: "bg-gradient-to-tr from-yellow-200 to-red-500",
     fgClass: {
@@ -137,7 +137,7 @@ const achievementMetadataMap: Record<string, AchievementMetadata> = {
   "floor-master-6": {
     title: "6階マスター",
     description: "TODO:いい感じのテキスト",
-    condition: "6階のチェックポイントの8割以上にチェックイン",
+    condition: "6階のチェックポイントの6割以上にチェックイン",
     icon: imgIconFactory("/achievements/keycap_6_3d.png", "Keycap 6"),
     bgClass: "bg-gradient-to-tr from-yellow-200 to-red-500",
     fgClass: {
@@ -147,7 +147,7 @@ const achievementMetadataMap: Record<string, AchievementMetadata> = {
   "floor-master-7": {
     title: "7階マスター",
     description: "TODO:いい感じのテキスト",
-    condition: "7階のチェックポイントの8割以上にチェックイン",
+    condition: "7階のチェックポイントの6割以上にチェックイン",
     icon: imgIconFactory("/achievements/keycap_7_3d.png", "Keycap 7"),
     bgClass: "bg-gradient-to-tr from-yellow-200 to-red-500",
     fgClass: {
