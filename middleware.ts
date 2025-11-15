@@ -59,6 +59,7 @@ export const config = {
   matcher: [
     // '/api/auth/prepare',
     // '/api/auth/post',
+    '/cehckin/:path*',
     '/checkin/:path*',
     '/',
   ]
