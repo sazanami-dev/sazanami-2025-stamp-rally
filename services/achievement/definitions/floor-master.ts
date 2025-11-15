@@ -17,7 +17,7 @@ function createFloorMasterAchievement(floor: number): AchievementStrategy {
           .filter((checkin) => checkin.checkpoint.floor === floor)
           .map((checkin) => checkin.checkpoint.id),
       );
-      const required = Math.ceil(floorCheckpoints.length * 0.8);
+      const required = Math.ceil(floorCheckpoints.length * 0.6);
       return visited.size >= required;
     },
     async execute(context: AchievementContext): Promise<boolean> {
