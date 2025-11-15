@@ -49,11 +49,12 @@ export async function middleware(request: NextRequest) {
   if (!isValidToken) {
     const prepareUrl = new URL(baseUrlString)
     prepareUrl.pathname = '/api/auth/prepare'
-    const nextUrl = new URL(request.nextUrl.toString())
+    // const nextUrl = new URL(request.nextUrl.toString())
     // prepareUrl.searchParams.set('redirectTo', nextUrl.toString())
     const redirectTo = new URL(baseUrlString);
-    redirectTo.pathname = nextUrl.pathname
-    redirectTo.search = nextUrl.search
+    redirectTo.pathname = request.nextUrl.pathname;
+    redirectTo.search = request.nextUrl.search; 
+    console.log("Generated redirectTo URL: ", redirectTo.toString());
     prepareUrl.searchParams.set('redirectTo', redirectTo.toString());
     return NextResponse.redirect(prepareUrl.toString())
   }
