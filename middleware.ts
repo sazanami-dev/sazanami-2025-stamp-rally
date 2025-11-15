@@ -50,7 +50,11 @@ export async function middleware(request: NextRequest) {
     const prepareUrl = new URL(baseUrlString)
     prepareUrl.pathname = '/api/auth/prepare'
     const nextUrl = new URL(request.nextUrl.toString())
-    prepareUrl.searchParams.set('redirectTo', nextUrl.toString())
+    // prepareUrl.searchParams.set('redirectTo', nextUrl.toString())
+    const redirectTo = new URL(baseUrlString);
+    redirectTo.pathname = nextUrl.pathname
+    redirectTo.search = nextUrl.search
+    prepareUrl.searchParams.set('redirectTo', redirectTo.toString());
     return NextResponse.redirect(prepareUrl.toString())
   }
   return NextResponse.next()
