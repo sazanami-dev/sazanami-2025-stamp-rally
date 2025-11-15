@@ -3,11 +3,12 @@ import type { NextRequest } from 'next/server'
 import { decodeToken } from './services/auth/token'
 import { ServerEnvKey, ServerEnvUtil } from './lib/serverEnv'
 
+const DEBUG_BYPASS_ENABLED = false
+
 export async function middleware(request: NextRequest) {
   const baseUrlString = ServerEnvUtil.get(ServerEnvKey.BASE_URL)
 
-  // Bypass auth (for debug use only)
-  if (request.nextUrl.searchParams.get('bypassAuth') === 'true') {
+  if (DEBUG_BYPASS_ENABLED && request.nextUrl.searchParams.get('bypassAuth') === 'true') {
     return NextResponse.next()
   }
 
