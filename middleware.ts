@@ -7,6 +7,12 @@ const DEBUG_BYPASS_ENABLED = false
 
 export async function middleware(request: NextRequest) {
   const baseUrlString = ServerEnvUtil.get(ServerEnvKey.BASE_URL)
+  const typoPath = "/cehckin"
+  if (request.nextUrl.pathname.startsWith(typoPath)) {
+    const correctedUrl = new URL(request.nextUrl.toString())
+    correctedUrl.pathname = request.nextUrl.pathname.replace(typoPath, "/checkin")
+    return NextResponse.redirect(correctedUrl)
+  }
 
   if (DEBUG_BYPASS_ENABLED && request.nextUrl.searchParams.get('bypassAuth') === 'true') {
     return NextResponse.next()
