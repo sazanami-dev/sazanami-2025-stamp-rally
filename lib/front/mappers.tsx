@@ -64,16 +64,6 @@ type AchievementMetadata = {
 }
 
 const achievementMetadataMap: Record<string, AchievementMetadata> = {
-  "debug_achievement": {
-    title: "Debug Achievement",
-    description: "デバッグ用実績",
-    condition: "このメッセージが 見れるのは おかしいよ",
-    icon: imgIconFactory("/achievements/placeholder.png", "Debug Achievement Badge"),
-    bgClass: "bg-gradient-to-tr from-gray-400 to-gray-900",
-    fgClass: {
-      text: "text-white",
-    },
-  },
   "placeholder": {
     title: "？？？？？",
     description: "未取得の実績です",
