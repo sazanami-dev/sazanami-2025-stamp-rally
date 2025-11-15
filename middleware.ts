@@ -10,7 +10,8 @@ export async function middleware(request: NextRequest) {
   const typoPath = "/cehckin"
   if (request.nextUrl.pathname.startsWith(typoPath)) {
     const correctedUrl = new URL(request.nextUrl.toString())
-    correctedUrl.pathname = request.nextUrl.pathname.replace(typoPath, "/checkin")
+    const suffix = request.nextUrl.pathname.slice(typoPath.length)
+    correctedUrl.pathname = `/checkin${suffix}`
     return NextResponse.redirect(correctedUrl)
   }
 
