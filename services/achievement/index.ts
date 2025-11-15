@@ -3,6 +3,7 @@ import Achievements from "./definitions";
 import { prisma } from "@/lib/prisma";
 
 const logger = new Logger("AchievementService");
+const DEBUG_FEATURES_ENABLED = false;
 
 async function createAchivementContext(checkinId: string) {
   const checkin = await prisma.checkin.findUnique({
@@ -39,6 +40,7 @@ const DEBUG_CHECKPOINT_ID = "debug_checkpoint";
 const DEBUG_ACHIEVEMENT_ID = "debug_achievement";
 
 export function isDebugCheckpoint(checkpointId: string | undefined) {
+  if (!DEBUG_FEATURES_ENABLED) return false;
   return checkpointId === DEBUG_CHECKPOINT_ID;
 }
 
@@ -47,6 +49,9 @@ export function shouldSkipAchievement(
   context: Awaited<ReturnType<typeof createAchivementContext>>,
   debugMode: boolean,
 ) {
+  if (!DEBUG_FEATURES_ENABLED) {
+    return context.earnedAchievements.has(achievementId);
+  }
   if (debugMode) return false;
   if (achievementId === DEBUG_ACHIEVEMENT_ID) return false;
   return context.earnedAchievements.has(achievementId);
@@ -56,7 +61,8 @@ async function process(checkinId: string): Promise<string[]> {
   logger.info(`Processing achievements for checkin ${checkinId}`);
   const earnedAchievements: string[] = [];
   const context = await createAchivementContext(checkinId);
-  const debugMode = isDebugCheckpoint(context.checkin.checkpoint.id);
+  const debugMode =
+    DEBUG_FEATURES_ENABLED && isDebugCheckpoint(context.checkin.checkpoint.id);
 
   for (const achievement of Achievements) {
     try {
