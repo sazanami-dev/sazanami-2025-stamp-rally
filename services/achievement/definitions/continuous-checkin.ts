@@ -7,12 +7,20 @@ export const ContinuousCheckinAchievement: AchievementStrategy = {
     if (!lastCheckin) {
       return false;
     }
-    if (_context.checkin.id === lastCheckin.id) {
-      return true;
+    // if (_context.checkin.id === lastCheckin.id) {
+    //   return true;
+    // }
+    if (_context.userCheckins.length < 2) {
+      return false;
     }
-    return false;
+    return true;
   },
   async execute(_context: AchievementContext): Promise<boolean> {
-    return this.shouldExecute(_context); // Always true if shouldExecute is true
+    // return this.shouldExecute(_context); // Always true if shouldExecute is true
+    if (_context.userCheckins[1].id === _context.checkin.id) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
